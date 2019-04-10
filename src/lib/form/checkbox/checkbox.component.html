@@ -1,0 +1,12 @@
+<div class="man-checkbox">
+    <div class="man-input"
+           (click)="onClick($event)"
+           (blur)="onBlur($event)"
+           (focus)="onFocus($event)"
+    >
+        <i class="fa fa-check" *ngIf="(value | async) === true"></i>
+    </div>
+    <div class="label" (click)="onClick($event)">
+        <ng-content></ng-content>
+    </div>
+</div>

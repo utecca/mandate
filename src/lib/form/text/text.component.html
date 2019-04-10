@@ -1,0 +1,12 @@
+<div class="man-text">
+    <input class="man-input"
+           [attr.type]="mask === 'password' ? 'password' : 'text'"
+           [attr.placeholder]="placeholder"
+           [value]="controlValue"
+           (input)="value.next($event.srcElement.value)"
+           (blur)="onBlur($event)"
+           (focus)="onFocus($event)"
+    >
+
+    <i *ngIf="required === ''" class="required fa fa-fw fa-asterisk"></i>
+</div>

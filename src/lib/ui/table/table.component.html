@@ -1,0 +1,21 @@
+<table [ngClass]="config?.class" class="man-table">
+    <thead *ngIf="config?.header">
+    <tr>
+        <th *ngFor="let column of config?.header"
+            [attr.width]="column.compact === true ? '1%' : ''"
+            [class.text-left]="column?.orientation == 'left'"
+            [class.text-center]="column?.orientation == 'center'"
+            [class.text-right]="column?.orientation == 'right'"
+            [class.sortable]="column?.sortable === true"
+            (click)="thClick(column)">
+            <span [innerHtml]="column.content"></span>
+            <i class="table-sort fa fa-sort text-muted" *ngIf="column?.sortable === true" [class.active]="sortName !== column?.name"></i>
+            <i class="table-sort fa fa-sort-asc" *ngIf="column?.sortable === true"
+               [class.active]="sortName === column?.name && sortAsc === true"></i>
+            <i class="table-sort fa fa-sort-desc" *ngIf="column?.sortable === true"
+               [class.active]="sortName === column?.name && sortAsc === false"></i>
+        </th>
+    </tr>
+    </thead>
+    <ng-content></ng-content>
+</table>

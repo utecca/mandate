@@ -2,6 +2,10 @@
  * Public API Surface of mandate
  */
 
-export * from './lib/mandate.service';
-export * from './lib/mandate.component';
 export * from './lib/mandate.module';
+export * from './lib/form/shared/interfaces/option';
+export * from './lib/form/shared/option.service';
+export * from './lib/form/shared/option-list';
+
+export * from './lib/ui/notification/api';
+export * from './lib/ui/dialog/api';

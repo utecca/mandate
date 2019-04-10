@@ -1,0 +1,4 @@
+<div class="progress">
+    <div [attr.class]="'progress-bar '+barClass" [ngStyle]="{width:valProgress+'%'}"></div> <!--[@visible]="isVisible()"-->
+    <div class="label" *ngIf="label">{{ label }}</div>
+</div>

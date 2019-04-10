@@ -1,0 +1,5 @@
+<ng-container *ngFor="let id of notification.notificationIds" >
+    <man-notification *ngIf="notification.notifications[id].visible"
+                      [data]="notification.notifications[id]"
+                      (destroy)="notification.removeNotification(id)"></man-notification>
+</ng-container>

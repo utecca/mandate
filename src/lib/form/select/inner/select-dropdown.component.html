@@ -1,0 +1,11 @@
+<div class="man-select-dropdown" #dropdown style="background-color: red; padding: 5px;">
+    <input autofocus type="text" (input)="onFilter($event)" #filter *ngIf="_config.filter"><br>
+    <div #filter *ngIf="!_config.filter"></div>
+
+    <div>
+        <div class="option" *ngFor="let option of inputMenuRef.data?.optionList.currentOptions | async"
+             (click)="setValue(option.value)">
+            {{ option.label }}
+        </div>
+    </div>
+</div>
