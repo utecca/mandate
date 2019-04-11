@@ -6,17 +6,13 @@ import { BehaviorSubject } from 'rxjs';
  */
 export abstract class OptionList {
 
-    public name: string;
+    public static id = '';
 
     public currentOptions = new BehaviorSubject<Option[]>([]);
 
     public _placeholder: Option = null;
 
     private _placeholderEnabled = false;
-
-    constructor() {
-        this.name = this.constructor.name;
-    }
 
     /**
      * Return a specific item. This is used when the form writes changes to the input.
