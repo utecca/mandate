@@ -31,8 +31,6 @@ export class CheckboxComponent extends BaseInputComponent implements OnDestroy {
         this.controlValueSubscription = this.value.subscribe((value) => {
             this.controlValue = value;
         });
-
-        console.log('CLASS', this.class);
     }
 
     ngOnDestroy() {
@@ -41,8 +39,9 @@ export class CheckboxComponent extends BaseInputComponent implements OnDestroy {
     }
 
     onClick(event) {
-        this.value.next(!this.value.value);
-        console.log('CLICK');
+        if (event.srcElement.localName !== 'a') {
+            this.value.next(!this.value.value);
+        }
     }
 }
 
