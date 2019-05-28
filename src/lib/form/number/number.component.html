@@ -1,0 +1,12 @@
+<div class="man-text">
+    <input class="man-input"
+           type="text"
+           [attr.placeholder]="placeholder"
+           [value]="controlValue"
+           (input)="inputValue($event.srcElement.value)"
+           (blur)="onBlur($event)"
+           (focus)="onFocus($event)"
+    >
+
+    <i *ngIf="required === ''" class="required fa fa-fw fa-asterisk"></i>
+</div>

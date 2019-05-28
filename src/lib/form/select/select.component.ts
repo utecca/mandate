@@ -1,6 +1,6 @@
 import { Component, forwardRef, HostBinding, HostListener, Injector, Input, OnDestroy, OnInit } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
-import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors } from '@angular/forms';
 import { OptionService } from '../shared/option.service';
 import { BaseOptionInputComponent } from '../shared/input-menu/base-option-input.component';
 import { Subscription } from 'rxjs';
