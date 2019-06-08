@@ -2,8 +2,9 @@ import { Component, ViewEncapsulation, ChangeDetectionStrategy, Injector, forwar
 import { Overlay } from '@angular/cdk/overlay';
 import { OptionService } from '../shared/option.service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { BaseInputComponent } from '../shared/input-menu/base-input.component';
+import { prettyNumber } from 'ngx-plumber';
 
 @Component({
     selector: 'man-number',
@@ -22,6 +23,8 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
 
     @Input() mode: 'default'|'amount' = 'default';
 
+    @Input() decimals = 0;
+
     _class = 'form-control man-form-control';
 
     public controlValue = '';
@@ -32,7 +35,13 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
         super(optionService);
 
         this.controlValueSubscription = this.value.subscribe((value) => {
-            this.controlValue = value; // TODO Use prettyNumber:2
+            if (typeof value === 'undefined') {
+                this.updateControlValue();
+            } else {
+                if (!this._focused) {
+                    this.updateControlValue();
+                }
+            }
         });
     }
 
@@ -42,7 +51,27 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
     }
 
     inputValue(value) {
-        this.value.next(parseInt(value, null)); // TODO Read pretty number.
+        this.value.next(
+            parseFloat(
+                value
+                    .toString()
+                    .replace(/[^0-9,\-]/g, '')
+                    .replace(',', '.')
+            ).toFixed(this.decimals)
+        );
+    }
+
+    onBlur(event) {
+        super.onBlur(event);
+        this.updateControlValue();
+    }
+
+    updateControlValue() {
+        if (typeof this.value.value === 'undefined') {
+            this.controlValue = '';
+        } else {
+            this.controlValue = prettyNumber(this.value.value, this.decimals);
+        }
     }
 }
 

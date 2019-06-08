@@ -1,8 +1,9 @@
 <div class="man-text">
     <input class="man-input"
            type="text"
+           #inner
            [attr.placeholder]="placeholder"
-           [value]="controlValue"
+           [(ngModel)]="controlValue"
            (input)="inputValue($event.srcElement.value)"
            (blur)="onBlur($event)"
            (focus)="onFocus($event)"

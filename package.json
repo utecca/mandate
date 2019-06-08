@@ -53,7 +53,7 @@
     "typescript": "~3.1.6"
   },
   "dependencies": {
-    "collect.js": "^4.6.4",
-    "ngx-plumber": "0.0.0-alpha.5"
+    "collect.js": "^4.12.5",
+    "ngx-plumber": "^0.0.0-alpha.10"
   }
 }
