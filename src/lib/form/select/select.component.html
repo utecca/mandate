@@ -1,4 +1,4 @@
-<div class="man-select" [class.disabled]="!_disabled" #inner>
+<div class="man-select" [class.disabled]="_disabled" #inner>
     <div class="man-input">
         <span #value>{{ _selectedOption.value?.label }}</span>
         <i class="caret fa fa-circle-o-notch fa-spin" *ngIf="isLoading"></i>

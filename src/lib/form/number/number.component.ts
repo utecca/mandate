@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, ChangeDetectionStrategy, Injector, forwardRef, OnDestroy, Input } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, Injector, forwardRef, OnDestroy, Input, ElementRef } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { OptionService } from '../shared/option.service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -31,8 +31,8 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
 
     private controlValueSubscription: Subscription;
 
-    constructor(overlay: Overlay, injector: Injector, optionService: OptionService) {
-        super(optionService);
+    constructor(element: ElementRef, overlay: Overlay, injector: Injector, optionService: OptionService) {
+        super(element, optionService);
 
         this.controlValueSubscription = this.value.subscribe((value) => {
             if (typeof value === 'undefined') {

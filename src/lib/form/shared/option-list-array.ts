@@ -6,21 +6,26 @@ import { Option } from './interfaces/option';
  */
 export class OptionListArray extends OptionList {
 
-    constructor(options: Option[]) {
+    constructor(private _options: Option[]) {
         super();
+        this.currentOptions.next(_options);
         // this._optionsSource = collect(options); // TODO
     }
 
     option(value: any): Promise<Option> {
-        return undefined;
+        return new Promise<Option>((resolve, reject) => {
+            for (const i of Object.keys(this._options)) {
+                if (this._options[i].value === value) {
+                    resolve(this._options[i]);
+                }
+                console.log('SET VAL', value, this._options[i]);
+            }
+        });
     }
 
     options(search: string): Promise<Option[]> {
-        return undefined;
+        return new Promise<Option[]>((resolve, reject) => {
+            resolve(this._options);
+        });
     }
-
-    preOptions(): Promise<Option[]> {
-        return undefined;
-    }
-
 }

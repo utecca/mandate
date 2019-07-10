@@ -23,7 +23,7 @@ export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        console.log('FOCUSING...', this.filter.nativeElement);
+        console.log('FOCUSING...', this.filter.nativeElement, this.inputMenuRef.data);
 
         // Focus the filter input or the dummy focus trap.
         this.filter.nativeElement.focus();

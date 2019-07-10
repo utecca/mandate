@@ -1,4 +1,4 @@
-import { Component, forwardRef, HostBinding, HostListener, Injector } from '@angular/core';
+import { Component, ElementRef, forwardRef, HostBinding, HostListener, Injector } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { AbstractControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors } from '@angular/forms';
 import { OptionService } from '../shared/option.service';
@@ -33,8 +33,8 @@ export class DateComponent extends BaseDropdownInputComponent {
     @HostBinding('tabindex')
     tabindex = 0;
 
-    constructor(overlay: Overlay, injector: Injector, optionService: OptionService) {
-        super(overlay, injector, optionService);
+    constructor(element: ElementRef, overlay: Overlay, injector: Injector, optionService: OptionService) {
+        super(element, overlay, injector, optionService);
 
         /*this.selectValueSubscription = this.value.subscribe((value) => {
             if (typeof value !== 'undefined') {

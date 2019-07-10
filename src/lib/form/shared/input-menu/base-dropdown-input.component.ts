@@ -5,16 +5,20 @@ import { ComponentType, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/
 import { InputMenuRef } from './input-menu-ref';
 import { InputMenuContainerComponent } from './input-menu-container.component';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
-import { ComponentRef, Injector } from '@angular/core';
+import { ComponentRef, ElementRef, Injector } from '@angular/core';
 import { OptionService } from '../option.service';
+import { BehaviorSubject } from 'rxjs';
 
 export abstract class BaseDropdownInputComponent extends BaseInputComponent {
+    scrollOffset = new BehaviorSubject<{x: number, y: number}>(null);
+
     constructor(
+        element: ElementRef,
         private _overlay: Overlay,
         private _injector: Injector,
         optionService?: OptionService
     ) {
-        super(optionService);
+        super(element, optionService);
     }
     protected openDropdown(component: any, data?: any) { // TODO: Config should be defined
         const config: InputMenuConfig = {
@@ -27,8 +31,22 @@ export abstract class BaseDropdownInputComponent extends BaseInputComponent {
             autoFocus: true,
             closeOnNavigation: true,
             parentElementOffset: globalOffset(this.inner),
-            data: data
+            data: data,
+            scrollOffset: this.scrollOffset
         };
+
+        const element  = this.inner.nativeElement.parentElement
+            .parentElement.parentElement.parentElement.parentElement
+            .parentElement.parentElement.parentElement.parentElement
+            .parentElement.parentElement.parentElement.parentElement; // TODO: Make a pipe for this
+
+        this.scrollOffset.next({
+            x: element.scrollLeft,
+            y: element.scrollTop
+        });
+
+        console.log('POS 2', element.scrollTop, globalOffset(this.inner));
+        console.log('POS 2', this.inner, globalOffset(this.inner));
 
         const overlayRef = this._createOverlay(config);
         const dropdownContainer = this._attachDropdownContainer(overlayRef, config);

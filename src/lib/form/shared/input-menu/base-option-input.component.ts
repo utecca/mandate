@@ -2,7 +2,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { BehaviorSubject } from 'rxjs';
 import { Option } from '../interfaces/option';
 import { OptionService } from '../option.service';
-import { HostListener, Injector, Input, OnDestroy } from '@angular/core';
+import { ElementRef, HostListener, Injector, Input, OnDestroy } from '@angular/core';
 import { SelectDropdownComponent } from '../../select/inner/select-dropdown.component';
 import { OptionList } from '../option-list';
 import { isFunction } from 'ngx-plumber';
@@ -28,6 +28,7 @@ export abstract class BaseOptionInputComponent extends BaseDropdownInputComponen
             this._optionList = new OptionListFunction(options);
         } else if (options instanceof Array) {
             this._optionList = new OptionListArray(options);
+            console.log('OPTS', this._optionList);
         } else if (typeof options !== 'undefined') {
             this._optionList = this._optionService.get(<string>options);
         }
@@ -39,8 +40,13 @@ export abstract class BaseOptionInputComponent extends BaseDropdownInputComponen
         this._optionList.init();
     }
 
-    constructor(overlay: Overlay, injector: Injector, optionService: OptionService) {
-        super(overlay, injector, optionService);
+    constructor(
+        element: ElementRef,
+        overlay: Overlay,
+        injector: Injector,
+        optionService: OptionService
+    ) {
+        super(element, overlay, injector, optionService);
     }
 
     ngOnDestroy() {

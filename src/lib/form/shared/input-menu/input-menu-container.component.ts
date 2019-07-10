@@ -8,6 +8,7 @@ import {BasePortalOutlet, ComponentPortal, CdkPortalOutlet, TemplatePortal} from
 import {FocusTrap, FocusTrapFactory} from '@angular/cdk/a11y';
 import {InputMenuConfig} from './input-menu-config';
 import {InputMenuAnimations} from './input-menu-animations';
+import { globalOffset } from 'ngx-plumber';
 
 
 /**
@@ -63,6 +64,8 @@ export class InputMenuContainerComponent extends BasePortalOutlet {
         private _changeDetectorRef: ChangeDetectorRef,
         @Optional() @Inject(DOCUMENT) private _document: any) {
         super();
+
+        // console.log('POS 2', this._elementRef, globalOffset(this._elementRef));
     }
 
     /**
@@ -167,5 +170,12 @@ export class InputMenuContainerComponent extends BasePortalOutlet {
 
         // Restore the focus before the menu was opened
         // this._restoreFocus();
+    }
+
+    public get position() {
+        return {
+            x: this._config.parentElementOffset.x - this._config.scrollOffset.value.x,
+            y: this._config.parentElementOffset.y - this._config.scrollOffset.value.y
+        };
     }
 }

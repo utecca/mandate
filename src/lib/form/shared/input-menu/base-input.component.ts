@@ -1,4 +1,4 @@
-import { EventEmitter, Host, HostBinding, HostListener, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { ElementRef, EventEmitter, Host, HostBinding, HostListener, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { InputMenuRef } from './input-menu-ref';
 import { AbstractControl, ControlValueAccessor, ValidationErrors, Validator } from '@angular/forms';
 import { OptionService } from '../option.service';
@@ -56,7 +56,8 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
     private valueSubscription: Subscription;
 
     constructor(
-        protected _optionService?: OptionService
+        private element: ElementRef,
+        protected _optionService?: OptionService,
     ) {
         // Subscribe to value changes
         this.valueSubscription = this.value.subscribe((value) => {
@@ -80,6 +81,7 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
 
     onBlur(event) {
         this._focused = false;
+        this.blur.emit(null);
     }
 
     onKeyup(event) {
@@ -88,6 +90,10 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
 
     onFocus(event) {
         this._focused = true;
+    }
+
+    get nativeElement() {
+        return this.element.nativeElement;
     }
 
     /**

@@ -142,6 +142,8 @@ export class InputMenuRef<T, R = any> {
     updatePosition(position?: any): this {
         const strategy = this._getPositionStrategy();
 
+        console.log('POS', window.pageYOffset);
+
         if (position && (position.left || position.right)) {
             position.left ? strategy.left(position.left) : strategy.right(position.right);
         } else {

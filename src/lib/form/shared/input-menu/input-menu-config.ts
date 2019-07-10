@@ -77,5 +77,7 @@ export class InputMenuConfig<D = any> {
         x: number,
         y: number
     };
+
+    scrollOffset: BehaviorSubject<{x: number, y: number}>;
     // TODO(jelbourn): add configuration for lifecycle hooks, ARIA labelling.
 }
