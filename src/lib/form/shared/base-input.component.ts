@@ -1,7 +1,7 @@
-import { ElementRef, EventEmitter, Host, HostBinding, HostListener, Input, OnDestroy, Output, ViewChild } from '@angular/core';
-import { InputMenuRef } from './input-menu-ref';
+import { ElementRef, EventEmitter, Host, HostBinding, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { InputMenuRef } from './input-menu/input-menu-ref';
 import { AbstractControl, ControlValueAccessor, ValidationErrors, Validator } from '@angular/forms';
-import { OptionService } from '../option.service';
+import { OptionService } from './option.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
 export abstract class BaseInputComponent implements ControlValueAccessor, Validator, OnDestroy {
@@ -18,6 +18,7 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
     @Input() set class(input) {
         this._customClass = input;
     }
+    @Input() public tabIndex;
 
     // Outputs
     @Output() public change = new EventEmitter();
@@ -90,6 +91,8 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
 
     onFocus(event) {
         this._focused = true;
+        console.log('FOCUS', this.inner);
+        this.inner.nativeElement.focus();
     }
 
     get nativeElement() {

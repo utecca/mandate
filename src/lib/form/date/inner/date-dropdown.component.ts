@@ -51,7 +51,7 @@ export class DateDropdownComponent implements OnDestroy, AfterViewInit {
 
         if (this.inputMenuRef.isOpen) {
             if (isDescendant(this.dropdown.nativeElement, $event.srcElement)) {
-                // this.filter.nativeElement.focus();
+                // this.filterInput.nativeElement.focus();
             } else {
                 this.inputMenuRef.close(false);
                 console.log('::: FOCUS AFTER CLICK');

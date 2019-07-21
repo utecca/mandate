@@ -1,7 +1,8 @@
 <div class="man-text">
-    <input class="man-input"
+    <input class="man-input" #inner
            [attr.type]="mask === 'password' ? 'password' : 'text'"
            [attr.placeholder]="placeholder"
+           [attr.tabindex]="tabIndex"
            [value]="controlValue"
            (input)="value.next($event.srcElement.value)"
            (blur)="onBlur($event)"

@@ -3,7 +3,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { OptionService } from '../shared/option.service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { BaseInputComponent } from '../shared/input-menu/base-input.component';
+import { BaseInputComponent } from '../shared/base-input.component';
 import { prettyNumber } from 'ngx-plumber';
 
 @Component({
