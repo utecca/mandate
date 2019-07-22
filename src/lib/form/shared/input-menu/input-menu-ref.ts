@@ -116,7 +116,7 @@ export class InputMenuRef<T, R = any> {
 
         // Transition the backdrop in parallel to the dialog.
         /*this._containerInstance._animationStateChanged.pipe(
-            filter(event => event.phaseName === 'start'),
+            filterInput(event => event.phaseName === 'start'),
             take(1)
         )
             .subscribe(() => {

@@ -1,9 +1,9 @@
-import {GlobalPositionStrategy, OverlayRef} from '@angular/cdk/overlay';
-import {ManDialogContainerComponent} from './dialog-container.component';
-import {filter, take} from 'rxjs/operators';
-import {ESCAPE} from '@angular/cdk/keycodes';
-import {DialogPosition} from './dialog-config';
-import {Observable, Subject} from 'rxjs/index';
+import { GlobalPositionStrategy, OverlayRef } from '@angular/cdk/overlay';
+import { ManDialogContainerComponent } from './dialog-container.component';
+import { filter, take } from 'rxjs/operators';
+import { ESCAPE } from '@angular/cdk/keycodes';
+import { DialogPosition } from './dialog-config';
+import { Observable, Subject } from 'rxjs/index';
 
 
 let uniqueId = 0;

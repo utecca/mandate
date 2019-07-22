@@ -1,5 +1,5 @@
 import { Option } from './interfaces/option';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
  * Used by the OptionService to fetch options.
@@ -7,6 +7,11 @@ import { BehaviorSubject } from 'rxjs';
 export abstract class OptionList {
 
     public static id = '';
+
+    /**
+     * Callback for creating a new option.
+     */
+    public createOptionCallback: (input: string) => Promise<any>;
 
     public currentOptions = new BehaviorSubject<Option[]>([]);
 

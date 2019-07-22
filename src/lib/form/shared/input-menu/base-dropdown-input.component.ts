@@ -1,4 +1,4 @@
-import { BaseInputComponent } from './base-input.component';
+import { BaseInputComponent } from '../base-input.component';
 import { InputMenuConfig } from './input-menu-config';
 import { globalOffset } from 'ngx-plumber';
 import { ComponentType, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
