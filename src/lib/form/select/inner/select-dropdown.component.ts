@@ -89,6 +89,8 @@ export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
             .then(
                 success => {
                     this.setValue(success);
+                    // Run close again, to restore focus.
+                    this.inputMenuRef.close();
                 },
                 error => {}
             );
@@ -99,7 +101,7 @@ export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
     }
 
     private initKeyEventListeners(): void {
-        this.keySubscription = this.inputMenuRef._overlayRef.keydownEvents().subscribe((event: KeyboardEvent) => {
+        this.keySubscription = this.inputMenuRef._overlayRef.keydownEvents().subscribe((event: KeyboardEvent) => { // TODO Unsubscribe
             switch (event.key) {
                 case 'ArrowUp':
                     event.preventDefault();

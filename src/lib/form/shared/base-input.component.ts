@@ -91,12 +91,17 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
 
     onFocus(event) {
         this._focused = true;
-        console.log('FOCUS', this.inner);
         this.inner.nativeElement.focus();
     }
 
     get nativeElement() {
         return this.element.nativeElement;
+    }
+
+    focus () {
+        setTimeout(() => {
+            this.inner.nativeElement.focus();
+        }, 100);
     }
 
     /**

@@ -5,7 +5,6 @@ import {
     Injector,
     forwardRef,
     OnDestroy,
-    HostBinding,
     Input,
     ElementRef
 } from '@angular/core';
