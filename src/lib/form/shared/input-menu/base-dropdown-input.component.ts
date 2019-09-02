@@ -35,17 +35,14 @@ export abstract class BaseDropdownInputComponent extends BaseInputComponent {
             scrollOffset: this.scrollOffset
         };
 
-        const element  = this.inner.nativeElement.parentElement
-            .parentElement.parentElement.parentElement.parentElement
-            .parentElement.parentElement.parentElement.parentElement
-            .parentElement.parentElement.parentElement.parentElement; // TODO: Make a pipe for this
+        const element  = this.getTopParent(this.inner.nativeElement); // TODO: Make a pipe for this
 
         this.scrollOffset.next({
             x: element.scrollLeft,
             y: element.scrollTop
         });
 
-        console.log('POS 2', element.scrollTop, globalOffset(this.inner));
+        // console.log('POS 2', element.scrollTop, globalOffset(this.inner));
         console.log('POS 2', this.inner, globalOffset(this.inner));
 
         const overlayRef = this._createOverlay(config);
@@ -56,6 +53,14 @@ export abstract class BaseDropdownInputComponent extends BaseInputComponent {
     private _createOverlay(config: InputMenuConfig): OverlayRef {
         const overlayConfig = this._getOverlayConfig(config);
         return this._overlay.create(overlayConfig);
+    }
+
+    private getTopParent(element): any {
+        if (typeof element.parentElement !== 'undefined') {
+            return this.getTopParent(element.parentElement);
+        } else {
+            return element;
+        }
     }
 
     private _getOverlayConfig(inputMenuConfig: InputMenuConfig): OverlayConfig {

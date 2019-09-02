@@ -30,9 +30,13 @@ import { BaseInputComponent } from '../shared/base-input.component';
 })
 export class TextComponent extends BaseInputComponent implements OnDestroy {
 
+    @Input('rows') set rows(input) {
+        this._rows = input;
+    }
     @Input() mask;
     _class = 'form-control man-form-control';
     public controlValue = '';
+    public _rows = 1;
     private controlValueSubscription: Subscription;
 
     constructor(element: ElementRef, overlay: Overlay, injector: Injector, optionService: OptionService) {

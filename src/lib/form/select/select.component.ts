@@ -48,7 +48,7 @@ export class SelectComponent extends BaseOptionInputComponent implements OnInit,
         super(element, overlay, injector, optionService);
 
         this.selectValueSubscription = this.value.subscribe((value) => {
-            if (typeof value !== 'undefined') {
+            if (typeof this._optionList !== 'undefined') {
                 this.isLoading = true;
                 this._optionList.option(value)
                     .then((option) => {
