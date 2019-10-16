@@ -1,14 +1,13 @@
 import {
     Component, ComponentRef, ElementRef, EmbeddedViewRef, EventEmitter, Inject, Optional, ChangeDetectorRef, ViewChild,
-    ViewEncapsulation, ChangeDetectionStrategy, HostListener
+    ViewEncapsulation, ChangeDetectionStrategy
 } from '@angular/core';
-import {DOCUMENT} from '@angular/common';
-import {AnimationEvent} from '@angular/animations';
-import {BasePortalOutlet, ComponentPortal, CdkPortalOutlet, TemplatePortal} from '@angular/cdk/portal';
-import {FocusTrap, FocusTrapFactory} from '@angular/cdk/a11y';
-import {InputMenuConfig} from './input-menu-config';
-import {InputMenuAnimations} from './input-menu-animations';
-import { globalOffset } from 'ngx-plumber';
+import { DOCUMENT } from '@angular/common';
+import { AnimationEvent } from '@angular/animations';
+import { BasePortalOutlet, ComponentPortal, CdkPortalOutlet, TemplatePortal } from '@angular/cdk/portal';
+import { FocusTrap, FocusTrapFactory } from '@angular/cdk/a11y';
+import { InputMenuConfig } from './input-menu-config';
+import { InputMenuAnimations } from './input-menu-animations';
 
 
 /**
@@ -35,7 +34,7 @@ export function throwMatDialogContentAlreadyAttachedError() {
 })
 export class InputMenuContainerComponent extends BasePortalOutlet {
     /** The portal outlet inside of this container into which the dialog content will be loaded. */
-    @ViewChild(CdkPortalOutlet) _portalOutlet: CdkPortalOutlet;
+    @ViewChild(CdkPortalOutlet, {static: true}) _portalOutlet: CdkPortalOutlet;
 
     /** The class that traps and manages focus within the dialog. */
     private _focusTrap: FocusTrap;

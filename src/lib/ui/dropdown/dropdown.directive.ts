@@ -1,7 +1,6 @@
-import {ContentChild, Directive, EventEmitter, Input, NgZone, OnInit, Output} from '@angular/core';
-import {DropdownMenuDirective} from './dropdown-menu.directive';
-import {DropdownToggleDirective} from './dropdown-toggle.directive';
-import {DropdownConfigInterface} from './dropdown-config.interface';
+import { ContentChild, Directive, EventEmitter, Input, NgZone, OnInit, Output } from '@angular/core';
+import { DropdownMenuDirective } from './dropdown-menu.directive';
+import { DropdownToggleDirective } from './dropdown-toggle.directive';
 
 @Directive({
     selector: '[mandateDropdown]',
@@ -14,9 +13,9 @@ import {DropdownConfigInterface} from './dropdown-config.interface';
     }
 })
 export class DropdownDirective implements OnInit {
-    @ContentChild(DropdownMenuDirective) private _menu: DropdownMenuDirective;
+    @ContentChild(DropdownMenuDirective, {static: true}) private _menu: DropdownMenuDirective;
 
-    @ContentChild(DropdownToggleDirective) private _toggle: DropdownToggleDirective;
+    @ContentChild(DropdownToggleDirective, {static: true}) private _toggle: DropdownToggleDirective;
 
     @Input() public autoClose: boolean | 'outside' | 'inside';
 

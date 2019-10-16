@@ -9,9 +9,9 @@ import { Subscription } from 'rxjs';
 })
 export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
 
-    @ViewChild('filter') public filterInput;
-    @ViewChild('dropdown') public dropdown;
-    @ViewChild('optionsContainer') public optionsContainer;
+    @ViewChild('filter', {static: true}) public filterInput;
+    @ViewChild('dropdown', {static: true}) public dropdown;
+    @ViewChild('optionsContainer', {static: true}) public optionsContainer;
     @ViewChildren('options') public options;
 
     private keySubscription: Subscription;

@@ -55,7 +55,7 @@ export function throwMatDialogContentAlreadyAttachedError() {
 })
 export class ManDialogContainerComponent extends BasePortalOutlet {
     /** The portal outlet inside of this container into which the dialog content will be loaded. */
-    @ViewChild(CdkPortalOutlet) _portalOutlet: CdkPortalOutlet;
+    @ViewChild(CdkPortalOutlet, {static: true}) _portalOutlet: CdkPortalOutlet;
 
     /** The class that traps and manages focus within the dialog. */
     private _focusTrap: FocusTrap;

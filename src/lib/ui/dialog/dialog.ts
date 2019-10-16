@@ -1,22 +1,15 @@
-import {
-    ComponentRef, Inject, Injectable, InjectionToken, Injector, Optional, SkipSelf,
-    TemplateRef
-} from '@angular/core';
-import {ComponentType} from '@angular/core/src/render3';
-import {DialogRef} from './dialog-ref';
-import {
-    BlockScrollStrategy, Overlay, OverlayConfig, OverlayContainer, OverlayRef,
-    ScrollStrategy
-} from '@angular/cdk/overlay';
-import {ManDialogConfig} from './dialog-config';
-import {ComponentPortal, PortalInjector, TemplatePortal} from '@angular/cdk/portal';
-import {ManDialogContainerComponent} from './dialog-container.component';
-import {startWith} from 'rxjs/operators';
-import {Directionality} from '@angular/cdk/bidi';
-import {ManDialogGlobalConfig} from './dialog-types';
-import {AlertDialogComponent} from './dialogs/alert-dialog.component';
-import {ConfirmDialogComponent} from './dialogs/confirm-dialog.component';
-import {defer, Observable, Subject} from 'rxjs/index';
+import { ComponentRef, Inject, Injectable, InjectionToken, Injector, Optional, SkipSelf, TemplateRef } from '@angular/core';
+import { DialogRef } from './dialog-ref';
+import { ComponentType, Overlay, OverlayConfig, OverlayContainer, OverlayRef } from '@angular/cdk/overlay';
+import { ManDialogConfig } from './dialog-config';
+import { ComponentPortal, PortalInjector, TemplatePortal } from '@angular/cdk/portal';
+import { ManDialogContainerComponent } from './dialog-container.component';
+import { startWith } from 'rxjs/operators';
+import { Directionality } from '@angular/cdk/bidi';
+import { ManDialogGlobalConfig } from './dialog-types';
+import { AlertDialogComponent } from './dialogs/alert-dialog.component';
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog.component';
+import { defer, Observable, Subject } from 'rxjs/index';
 
 export const MAN_DIALOG_DATA = new InjectionToken<any>('ManDialogData');
 
@@ -61,7 +54,7 @@ export class Dialog {
                 // @Optional() private _location: Location,
                 @Optional() @Inject(MAN_DIALOG_DEFAULT_OPTIONS) private _defaultOptions,
                 @Optional() @Inject(MAN_DIALOG_GLOBAL_CONFIG) private _config,
-                //@Inject(MAT_DIALOG_SCROLL_STRATEGY) private _scrollStrategy,
+                // @Inject(MAT_DIALOG_SCROLL_STRATEGY) private _scrollStrategy,
                 @Optional() @SkipSelf() private _parentDialog: Dialog,
                 private _overlayContainer: OverlayContainer) {
 
@@ -142,8 +135,8 @@ export class Dialog {
             backdropClass: 'man-dialog-backdrop',
             hasBackdrop: true, // dialogConfig.hasBackdrop,
             direction: dialogConfig.direction,
-            ///minWidth: '100%', // dialogConfig.minWidth,
-            //minHeight: '100%', // dialogConfig.minHeight,*/
+            /// minWidth: '100%', // dialogConfig.minWidth,
+            // minHeight: '100%', // dialogConfig.minHeight,*/
             // maxWidth: '80%', // dialogConfig.maxWidth,
             // maxHeight: '80%', // dialogConfig.maxHeight // TODO LOAD FROM TYPE CONFIG (BASED ON DIALOG TYPE)*/
         });

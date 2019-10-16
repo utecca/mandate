@@ -10,7 +10,7 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
     protected _customClass = '';
 
     protected inputMenuRef: InputMenuRef<any>;
-    @ViewChild('inner') protected inner;
+    @ViewChild('inner', {static: true}) protected inner;
 
     // Inputs
     @Input() public placeholder;
