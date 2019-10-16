@@ -7,7 +7,7 @@ import { ManDialogContainerComponent } from './dialog-container.component';
 import { startWith } from 'rxjs/operators';
 import { Directionality } from '@angular/cdk/bidi';
 import { ManDialogGlobalConfig } from './dialog-types';
-import { defer, Observable, Subject } from 'rxjs/index';
+import { defer, Observable, Subject } from 'rxjs';
 
 export const MAN_DIALOG_DATA = new InjectionToken<any>('ManDialogData');
 

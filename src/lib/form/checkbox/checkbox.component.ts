@@ -1,14 +1,4 @@
-import {
-    Component,
-    ViewEncapsulation,
-    ChangeDetectionStrategy,
-    Injector,
-    forwardRef,
-    OnDestroy,
-    HostBinding,
-    Input,
-    ElementRef
-} from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, Injector, forwardRef, OnDestroy, Input, ElementRef } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { OptionService } from '../shared/option.service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
