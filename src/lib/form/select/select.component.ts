@@ -1,6 +1,6 @@
-import { Component, ElementRef, forwardRef, HostBinding, HostListener, Injector, Input, OnDestroy, OnInit } from '@angular/core';
-import { Overlay } from '@angular/cdk/overlay';
-import { AbstractControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors } from '@angular/forms';
+import { Component, ElementRef, forwardRef, Injector, Input, OnDestroy, OnInit } from '@angular/core';
+import { Overlay, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OptionService } from '../shared/option.service';
 import { BaseOptionInputComponent } from '../shared/input-menu/base-option-input.component';
 import { Subscription } from 'rxjs';
@@ -28,11 +28,7 @@ export class SelectComponent extends BaseOptionInputComponent implements OnInit,
      */
     public isLoading = false;
 
-    _class = 'form-control man-form-control';
-
     @Input() private filter = false;
-
-    @HostBinding('tabindex') tabindex = 0;
 
     /**
      * Contains the value subscription.
@@ -43,22 +39,27 @@ export class SelectComponent extends BaseOptionInputComponent implements OnInit,
         element: ElementRef,
         overlay: Overlay,
         injector: Injector,
-        optionService: OptionService
+        optionService: OptionService,
+        sso: ScrollStrategyOptions
     ) {
-        super(element, overlay, injector, optionService);
+        super(element, overlay, injector, optionService, sso);
 
-        this.selectValueSubscription = this.value.subscribe((value) => {
-            if (typeof value !== 'undefined') {
-                this.isLoading = true;
-                this._optionList.option(value)
-                    .then((option) => {
-                        // TODO Make sure that the value has not changed since.
-                        this._selectedOption.next(option);
-                        this.isLoading = false;
-                    })
-                    .catch();
-            }
-        });
+        setTimeout(() => {
+            this.selectValueSubscription = this.value.subscribe((value) => {
+                if (typeof this._optionList !== 'undefined') {
+                    this.isLoading = true;
+                    this._optionList.option(value)
+                        .then((option) => {
+                            // TODO Make sure that the value has not changed since.
+                            this._selectedOption.next(option);
+                            this.isLoading = false;
+                        })
+                        .catch();
+                } else {
+                    throw Error('Select-inputs must have options defined.');
+                }
+            });
+        }, 0);
     }
 
     ngOnInit() {

@@ -9,19 +9,19 @@ import {
     ChangeDetectorRef,
     ViewChild,
     ViewEncapsulation,
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, HostBinding,
 } from '@angular/core';
-import {DOCUMENT} from '@angular/common';
-import {AnimationEvent} from '@angular/animations';
+import { DOCUMENT } from '@angular/common';
+import { AnimationEvent } from '@angular/animations';
 import {
     BasePortalOutlet,
     ComponentPortal,
     CdkPortalOutlet,
     TemplatePortal
 } from '@angular/cdk/portal';
-import {FocusTrap, FocusTrapFactory} from '@angular/cdk/a11y';
-import {ManDialogConfig} from './dialog-config';
-import {manDialogAnimations} from './dialog-animations';
+import { FocusTrap, FocusTrapFactory } from '@angular/cdk/a11y';
+import { ManDialogConfig } from './dialog-config';
+import { manDialogAnimations } from './dialog-animations';
 
 
 /**
@@ -41,7 +41,6 @@ export function throwMatDialogContentAlreadyAttachedError() {
     changeDetection: ChangeDetectionStrategy.Default,
     animations: [manDialogAnimations.slideDialog],
     host: {
-        '[attr.class]': '_config?.panelClass',
         'tabindex': '-1',
         '[attr.id]': '_id',
         '[attr.role]': '_config?.role',
@@ -84,6 +83,11 @@ export class ManDialogContainerComponent extends BasePortalOutlet {
         private _changeDetectorRef: ChangeDetectorRef,
         @Optional() @Inject(DOCUMENT) private _document: any) {
         super();
+    }
+
+    @HostBinding('class')
+    get class() {
+        return this._config.panelClass + ' dialog-default-' + this._config.size;
     }
 
     /**

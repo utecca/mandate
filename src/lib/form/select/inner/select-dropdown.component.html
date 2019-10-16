@@ -2,7 +2,10 @@
     <div class="filter-bar">
         <div class="d-flex">
             <input autofocus #filter type="text" class="filter flex-fill" (input)="onFilter($event)" #filterInput *ngIf="_config.filter">
-            <button class="btn btn-primary" (click)="createOption()"><i class="fa fa-fw fa-plus"></i> Ny</button>
+            <button *ngIf="inputMenuRef?.data?.optionList?.createOptionCallback !== null"
+                    class="btn btn-primary" (click)="createOption()">
+                <i class="fa fa-fw fa-plus"></i> Ny
+            </button>
         </div>
     </div>
 

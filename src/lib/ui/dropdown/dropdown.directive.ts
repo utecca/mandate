@@ -1,4 +1,4 @@
-import { ContentChild, Directive, EventEmitter, Input, NgZone, OnInit, Output } from '@angular/core';
+import { ContentChild, Directive, EventEmitter, HostListener, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 import { DropdownMenuDirective } from './dropdown-menu.directive';
 import { DropdownToggleDirective } from './dropdown-toggle.directive';
 
@@ -8,16 +8,14 @@ import { DropdownToggleDirective } from './dropdown-toggle.directive';
     host: {
         'class': 'dropdown',
         '[class.show]': 'isOpen()',
-        '(keyup.esc)': 'closeFromOutsideEsc()',
-        '(document:click)': 'closeFromClick($event)'
     }
 })
-export class DropdownDirective implements OnInit {
-    @ContentChild(DropdownMenuDirective, {static: true}) private _menu: DropdownMenuDirective;
+export class DropdownDirective implements OnInit, OnDestroy {
+    @ContentChild(DropdownMenuDirective, {static: false}) private _menu: DropdownMenuDirective;
 
-    @ContentChild(DropdownToggleDirective, {static: true}) private _toggle: DropdownToggleDirective;
+    @ContentChild(DropdownToggleDirective, {static: false}) private _toggle: DropdownToggleDirective;
 
-    @Input() public autoClose: boolean | 'outside' | 'inside';
+    @Input() public autoClose: boolean | 'outside' | 'inside'; // TODO Necessary?
 
     @Input('open') _open = false;
 
@@ -28,7 +26,7 @@ export class DropdownDirective implements OnInit {
     constructor(
         public ngZone: NgZone
     ) {
-        this.autoClose = 'outside';
+        this.autoClose = true;
         this._zoneSubscription = ngZone.onStable.subscribe(() => { });
     }
 
@@ -71,27 +69,35 @@ export class DropdownDirective implements OnInit {
         }
     }
 
-    closeFromClick($event) {
-        if (this.autoClose && $event.button !== 2 && !this._isEventFromToggle($event)) {
+    @HostListener('document:click', ['$event'])
+    closeFromClick(event) {
+        if (this.autoClose && event.button !== 2 && !this._isEventFromToggle(event)) {
             if (this.autoClose === true) {
                 this.close();
-            } else if (this.autoClose === 'inside' && this._isEventFromMenu($event)) {
+            } else if (this.autoClose === 'inside' && this._isEventFromMenu(event)) {
                 this.close();
-            } else if (this.autoClose === 'outside' && !this._isEventFromMenu($event)) {
+            } else if (this.autoClose === 'outside' && !this._isEventFromMenu(event)) {
                 this.close();
             }
         }
     }
 
-    closeFromOutsideEsc() {
-        if (this.autoClose) {
+    @HostListener('window:keyup', ['$event'])
+    closeFromOutsideEsc(event) {
+        if (this.autoClose && event.key === 'Escape') {
             this.close();
         }
     }
 
-    ngOnDestroy() { this._zoneSubscription.unsubscribe(); }
+    ngOnDestroy() {
+        this._zoneSubscription.unsubscribe();
+    }
 
-    private _isEventFromToggle($event) { return this._toggle ? this._toggle.isEventFrom($event) : false; }
+    private _isEventFromToggle(event) {
+        return this._toggle ? this._toggle.isEventFrom(event) : false;
+    }
 
-    private _isEventFromMenu($event) { return this._menu ? this._menu.isEventFrom($event) : false; }
+    private _isEventFromMenu(event) {
+        return this._menu ? this._menu.isEventFrom(event) : false;
+    }
 }

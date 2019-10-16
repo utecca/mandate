@@ -1,5 +1,5 @@
-import { Component, ElementRef, forwardRef, HostBinding, HostListener, Injector } from '@angular/core';
-import { Overlay } from '@angular/cdk/overlay';
+import { Component, ElementRef, forwardRef, HostListener, Injector } from '@angular/core';
+import { Overlay, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { AbstractControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors } from '@angular/forms';
 import { OptionService } from '../shared/option.service';
 import { BaseDropdownInputComponent } from '../shared/input-menu/base-dropdown-input.component';
@@ -24,17 +24,18 @@ import { pad } from 'ngx-plumber';
 })
 export class DateComponent extends BaseDropdownInputComponent {
 
-    _class = 'form-control man-form-control';
-
     public controlValue = '';
 
     private isValid = true;
 
-    @HostBinding('tabindex')
-    tabindex = 0;
-
-    constructor(element: ElementRef, overlay: Overlay, injector: Injector, optionService: OptionService) {
-        super(element, overlay, injector, optionService);
+    constructor(
+        element: ElementRef,
+        overlay: Overlay,
+        injector: Injector,
+        optionService: OptionService,
+        sso: ScrollStrategyOptions
+    ) {
+        super(element, overlay, injector, optionService, sso);
 
         /*this.selectValueSubscription = this.value.subscribe((value) => {
             if (typeof value !== 'undefined') {
@@ -54,7 +55,6 @@ export class DateComponent extends BaseDropdownInputComponent {
      * Read input from the user and convert into date.
      */
     public inputValue(value: string) {
-        console.log('INPUT');
         value = value.replace(/\D+/g, '/');
 
         let result = null;
@@ -142,7 +142,6 @@ export class DateComponent extends BaseDropdownInputComponent {
     setValue(year: number, month?: number, day?: number) {
         if (year) {
             this.value.next(year + '-' + pad(month, 2) + '-' + pad(day, 2));
-            console.log('VAL', this.value.value);
             this.controlValue = pad(day, 2) + '.' + pad(month, 2) + '.' + year;
             this.isValid = true;
         } else {
@@ -161,8 +160,6 @@ export class DateComponent extends BaseDropdownInputComponent {
 
             this.setValue(date.getFullYear(), date.getMonth() + 1, date.getDate());
         }
-
-        console.log('WRITE VALUE', value, this.value.value);
     }
 
     @HostListener('keydown', ['$event'])
@@ -179,6 +176,7 @@ export class DateComponent extends BaseDropdownInputComponent {
                 DateDropdownComponent,
                 {
                     value: this.value,
+                    inner: this.inner
                 }
             );
         }

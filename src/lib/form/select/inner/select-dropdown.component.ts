@@ -9,9 +9,9 @@ import { Subscription } from 'rxjs';
 })
 export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
 
-    @ViewChild('filter', {static: true}) public filterInput;
-    @ViewChild('dropdown', {static: true}) public dropdown;
-    @ViewChild('optionsContainer', {static: true}) public optionsContainer;
+    @ViewChild('filter', {static: false}) public filterInput;
+    @ViewChild('dropdown', {static: false}) public dropdown;
+    @ViewChild('optionsContainer', {static: false}) public optionsContainer;
     @ViewChildren('options') public options;
 
     private keySubscription: Subscription;
@@ -40,7 +40,7 @@ export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
 
         // Subscribe to blur-events on the filterInput input
         this.filterInput.nativeElement.addEventListener('blur', ($event) => {
-            console.log('EVENT', $event);
+            // console.log('EVENT', $event);
             // this.inputMenuRef.close(false);
             // TODO check if new activeElement is inside the dropdown.
             // TODO If not, close the menu. If it is, and the clicked element was not a new value, refocus the input
@@ -140,7 +140,7 @@ export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
                 this.filterInput.nativeElement.focus();
             } else {
                 this.inputMenuRef.close(false);
-                console.log('::: FOCUS AFTER CLICK');
+                // console.log('::: FOCUS AFTER CLICK');
             }
         }
     }

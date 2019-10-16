@@ -8,7 +8,7 @@ import { isDescendant } from 'ngx-plumber';
 })
 export class DateDropdownComponent implements OnDestroy, AfterViewInit {
 
-    @ViewChild('dropdown', {static: true}) public dropdown;
+    @ViewChild('dropdown', {static: false}) public dropdown;
 
     public _config = {
         filter: true

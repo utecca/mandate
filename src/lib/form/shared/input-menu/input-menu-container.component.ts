@@ -1,6 +1,6 @@
 import {
     Component, ComponentRef, ElementRef, EmbeddedViewRef, EventEmitter, Inject, Optional, ChangeDetectorRef, ViewChild,
-    ViewEncapsulation, ChangeDetectionStrategy
+    ViewEncapsulation, ChangeDetectionStrategy, OnDestroy
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AnimationEvent } from '@angular/animations';
@@ -8,7 +8,6 @@ import { BasePortalOutlet, ComponentPortal, CdkPortalOutlet, TemplatePortal } fr
 import { FocusTrap, FocusTrapFactory } from '@angular/cdk/a11y';
 import { InputMenuConfig } from './input-menu-config';
 import { InputMenuAnimations } from './input-menu-animations';
-
 
 /**
  * Throws an exception for the case when a ComponentPortal is
@@ -32,9 +31,28 @@ export function throwMatDialogContentAlreadyAttachedError() {
         '(@slideDialog.done)': '_onAnimationDone($event)',
     },
 })
-export class InputMenuContainerComponent extends BasePortalOutlet {
+export class InputMenuContainerComponent extends BasePortalOutlet implements OnDestroy {
+
+    constructor(
+        private _elementRef: ElementRef,
+        private _focusTrapFactory: FocusTrapFactory,
+        private _changeDetectorRef: ChangeDetectorRef,
+        @Optional() @Inject(DOCUMENT) private _document: any) {
+        super();
+
+        setTimeout(() => {
+            this.calcPosition();
+        }, 0);
+
+        document.addEventListener('scroll', this.scrollListener, true);
+    }
     /** The portal outlet inside of this container into which the dialog content will be loaded. */
     @ViewChild(CdkPortalOutlet, {static: true}) _portalOutlet: CdkPortalOutlet;
+
+    position = {
+        x: 0,
+        y: 0
+    };
 
     /** The class that traps and manages focus within the dialog. */
     private _focusTrap: FocusTrap;
@@ -57,14 +75,12 @@ export class InputMenuContainerComponent extends BasePortalOutlet {
     /** ID for the container DOM element. */
     _id: string;
 
-    constructor(
-        private _elementRef: ElementRef,
-        private _focusTrapFactory: FocusTrapFactory,
-        private _changeDetectorRef: ChangeDetectorRef,
-        @Optional() @Inject(DOCUMENT) private _document: any) {
-        super();
+    private scrollListener = () => {
+        this.calcPosition();
+    };
 
-        // console.log('POS 2', this._elementRef, globalOffset(this._elementRef));
+    ngOnDestroy(): void {
+        document.removeEventListener('scroll', this.scrollListener);
     }
 
     /**
@@ -171,10 +187,14 @@ export class InputMenuContainerComponent extends BasePortalOutlet {
         // this._restoreFocus();
     }
 
-    public get position() {
-        return {
-            x: this._config.parentElementOffset.x - this._config.scrollOffset.value.x,
-            y: this._config.parentElementOffset.y - this._config.scrollOffset.value.y
-        };
+    private calcPosition(e = null) {
+        if (typeof this._config !== 'undefined') {
+            const pos = this._config.data.inner.nativeElement.getBoundingClientRect();
+
+            this.position = {
+                x: pos.left,
+                y: pos.top // this._config.parentElementOffset.y - this._config.scrollOffset.value.y
+            };
+        }
     }
 }

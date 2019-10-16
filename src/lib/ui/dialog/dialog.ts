@@ -7,8 +7,6 @@ import { ManDialogContainerComponent } from './dialog-container.component';
 import { startWith } from 'rxjs/operators';
 import { Directionality } from '@angular/cdk/bidi';
 import { ManDialogGlobalConfig } from './dialog-types';
-import { AlertDialogComponent } from './dialogs/alert-dialog.component';
-import { ConfirmDialogComponent } from './dialogs/confirm-dialog.component';
 import { defer, Observable, Subject } from 'rxjs/index';
 
 export const MAN_DIALOG_DATA = new InjectionToken<any>('ManDialogData');
@@ -46,7 +44,7 @@ export class Dialog {
      * Stream that emits when all open dialog have finished closing.
      * Will emit on subscribe if there are no open dialogs to begin with.
      */
-    readonly afterAllClosed: Observable<void> = defer<void>(() => this.openDialogs.length ?
+    readonly afterAllClosed: Observable<any> = defer<any>(() => this.openDialogs.length ?
         this._afterAllClosed :
         this._afterAllClosed.pipe(startWith(undefined)));
     constructor(public _overlay: Overlay,
@@ -64,7 +62,19 @@ export class Dialog {
      * Show a new model
      */
     public open(componentOrTemplateRef: any, config?: ManDialogConfig) { // ModalInstance
+        if (typeof config === 'undefined') {
+            config = new ManDialogConfig();
+        }
+
         config = this._applyConfigDefaults(config, this._defaultOptions || new ManDialogConfig());
+
+        if (typeof componentOrTemplateRef.options !== 'undefined') {
+            if (typeof componentOrTemplateRef.options.size !== 'undefined') {
+                config.size = componentOrTemplateRef.options.size;
+            }
+        }
+
+        console.log('DEBUG', componentOrTemplateRef.options);
 
         if (config.id && this.getDialogById(config.id)) {
             throw Error(`Dialog with id "${config.id}" exists already. The dialog id must be unique.`);
@@ -87,13 +97,14 @@ export class Dialog {
                 'Please define the alert component in global configuration.');
         }
 
+        // @ts-ignore
         const dialogRef = this.open(this._config.specialDialogs.alert.component, {
             data: {
                 content: content,
                 title: title,
                 icon: icon
             },
-            type: this._config.specialDialogs.alert.type
+            size: this._config.specialDialogs.alert.size
         });
 
         return dialogRef.beforeClose.toPromise();
@@ -105,13 +116,14 @@ export class Dialog {
                 'Please define the confirm component in global configuration.');
         }
 
+        // @ts-ignore
         const dialogRef = this.open(this._config.specialDialogs.confirm.component, {
             data: {
                 content: content,
                 title: title,
                 icon: icon
             },
-            type: this._config.specialDialogs.confirm.type
+            size: this._config.specialDialogs.confirm.size
         });
 
         return dialogRef.beforeClose.toPromise();
