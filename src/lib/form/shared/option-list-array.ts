@@ -15,13 +15,14 @@ export class OptionListArray extends OptionList {
     option(value: any): Promise<Option> {
         return new Promise<Option>((resolve, reject) => {
             for (const i of Object.keys(this._options)) {
+                console.log('OPT VAL GET FROM VALUE', value);
                 if (value === null || typeof value === 'undefined') {
                     resolve(this._placeholder);
                 } else {
                     if (this._options[i].value === value) {
                         resolve(this._options[i]);
                     }
-                    console.log('SET VAL', value, this._options[i]);
+                    console.log('OPT VAL SET ', value, this._options[i]);
                 }
             }
         });

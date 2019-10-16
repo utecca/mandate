@@ -11,11 +11,14 @@ export abstract class OptionList {
     /**
      * Callback for creating a new option.
      */
-    public createOptionCallback: (input: string) => Promise<any>;
+    public createOptionCallback: (input: string) => Promise<any> = null;
 
     public currentOptions = new BehaviorSubject<Option[]>([]);
 
-    public _placeholder: Option = null;
+    public _placeholder: Option = {
+        value: null,
+        label: 'N/A'
+    };
 
     private _placeholderEnabled = false;
 

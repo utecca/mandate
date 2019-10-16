@@ -5,20 +5,31 @@ import { OptionService } from './option.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
 export abstract class BaseInputComponent implements ControlValueAccessor, Validator, OnDestroy {
+    private _required;
 
-    abstract _class: string;
+
     protected _customClass = '';
 
     protected inputMenuRef: InputMenuRef<any>;
-    @ViewChild('inner') protected inner;
+    @ViewChild('inner', {static: false}) protected inner;
 
     // Inputs
     @Input() public placeholder;
-    @Input() public required;
+    @Input() public set required(value) {
+        this._required = value === '';
+    }
+
+    public get required() {
+        return this._required;
+    }
+
+
     @Input() set class(input) {
         this._customClass = input;
     }
-    @Input() public tabIndex;
+
+    /** TabIndex */
+    @Input() public tindex;
 
     // Outputs
     @Output() public change = new EventEmitter();
@@ -33,7 +44,7 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
     public _focused = false;
 
     @HostBinding('class') get elementClass() {
-        return this._class + ' ' + this._customClass;
+        return 'man-input';
     }
 
     /**
@@ -81,7 +92,7 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
     }
 
     onBlur(event) {
-        this._focused = false;
+        // this._focused = false;
         this.blur.emit(null);
     }
 

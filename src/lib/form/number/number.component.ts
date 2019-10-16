@@ -25,8 +25,7 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
 
     @Input() decimals = 0;
 
-    _class = 'form-control man-form-control';
-
+    @Input() nullable = false;
     public controlValue = '';
 
     private controlValueSubscription: Subscription;
@@ -51,13 +50,22 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
     }
 
     inputValue(value) {
-        this.value.next(
-            parseFloat(
-                value
-                    .toString()
-                    .replace(/[^0-9,\-]/g, '')
-                    .replace(',', '.')
-            ).toFixed(this.decimals)
+        if (this.nullable && (this.parseStringToNumber(value) === null || typeof value === 'undefined')) {
+            this.value.next(null);
+        } else {
+            this.value.next(
+                this.parseStringToNumber(value)
+                .toFixed(this.decimals)
+            );
+        }
+    }
+
+    private parseStringToNumber(input: string|number): number {
+        return parseFloat(
+            input
+                .toString()
+                .replace(/[^0-9,\-]/g, '')
+                .replace(',', '.')
         );
     }
 
@@ -67,7 +75,7 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
     }
 
     updateControlValue() {
-        if (typeof this.value.value === 'undefined') {
+        if (this.value.value === null) {
             this.controlValue = '';
         } else {
             this.controlValue = prettyNumber(this.value.value, this.decimals);

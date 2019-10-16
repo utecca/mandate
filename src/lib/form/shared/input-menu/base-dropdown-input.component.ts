@@ -1,7 +1,7 @@
 import { BaseInputComponent } from '../base-input.component';
 import { InputMenuConfig } from './input-menu-config';
 import { globalOffset } from 'ngx-plumber';
-import { ComponentType, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentType, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { InputMenuRef } from './input-menu-ref';
 import { InputMenuContainerComponent } from './input-menu-container.component';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
@@ -16,7 +16,8 @@ export abstract class BaseDropdownInputComponent extends BaseInputComponent {
         element: ElementRef,
         private _overlay: Overlay,
         private _injector: Injector,
-        optionService?: OptionService
+        optionService: OptionService,
+        private sso: ScrollStrategyOptions
     ) {
         super(element, optionService);
     }
@@ -34,6 +35,8 @@ export abstract class BaseDropdownInputComponent extends BaseInputComponent {
             data: data,
             scrollOffset: this.scrollOffset
         };
+
+        console.log('ASD', this.inner);
 
         const element  = this.getTopParent(this.inner.nativeElement); // TODO: Make a pipe for this
 
@@ -56,7 +59,7 @@ export abstract class BaseDropdownInputComponent extends BaseInputComponent {
     }
 
     private getTopParent(element): any {
-        if (typeof element.parentElement !== 'undefined') {
+        if (element.parentElement !== null) {
             return this.getTopParent(element.parentElement);
         } else {
             return element;
@@ -66,7 +69,7 @@ export abstract class BaseDropdownInputComponent extends BaseInputComponent {
     private _getOverlayConfig(inputMenuConfig: InputMenuConfig): OverlayConfig {
         const state = new OverlayConfig({
             positionStrategy: this._overlay.position().global(),
-            scrollStrategy: this._overlay.scrollStrategies.block(),
+            scrollStrategy: this.sso.block(),
             panelClass: inputMenuConfig.panelClass,
             backdropClass: 'man-input-dropdown-backdrop',
             hasBackdrop: true, // dialogConfig.hasBackdrop,

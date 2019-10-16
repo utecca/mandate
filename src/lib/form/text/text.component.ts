@@ -1,13 +1,4 @@
-import {
-    Component,
-    ViewEncapsulation,
-    ChangeDetectionStrategy,
-    Injector,
-    forwardRef,
-    OnDestroy,
-    Input,
-    ElementRef
-} from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, Injector, forwardRef, OnDestroy, Input, ElementRef } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { OptionService } from '../shared/option.service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -15,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { BaseInputComponent } from '../shared/base-input.component';
 
 @Component({
-    // moduleId: module.id,
     selector: 'man-text',
     templateUrl: './text.component.html',
     encapsulation: ViewEncapsulation.None,
@@ -34,7 +24,6 @@ export class TextComponent extends BaseInputComponent implements OnDestroy {
         this._rows = input;
     }
     @Input() mask;
-    _class = 'form-control man-form-control';
     public controlValue = '';
     public _rows = 1;
     private controlValueSubscription: Subscription;

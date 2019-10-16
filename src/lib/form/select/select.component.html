@@ -1,13 +1,11 @@
-<div class="man-select" [class.disabled]="_disabled" #inner>
-    <div class="man-input"
-         [tabindex]="tabIndex"
-         (blur)="onBlur($event)"
-         (focus)="onFocus($event)">
-        <span #value>{{ _selectedOption.value?.label }}</span>
-        <i class="caret fa fa-circle-o-notch fa-spin" *ngIf="isLoading"></i>
-        <i class="caret fa fa-chevron-down" *ngIf="!isLoading"></i>
-    </div>
-
-
-    <i *ngIf="required === ''" class="required fa fa-fw fa-asterisk"></i>
+<div class="form-control man-select" #inner
+     [class.disabled]="_disabled"
+     [tabindex]="tindex"
+     (blur)="onBlur($event)"
+     (focus)="onFocus($event)">
+    <span #value>{{ _selectedOption.value?.label }}</span>
+    <i class="caret fa fa-circle-o-notch fa-spin" *ngIf="isLoading"></i>
+    <i class="caret fa fa-chevron-down" *ngIf="!isLoading"></i>
 </div>
+
+<i *ngIf="required" class="required fa fa-fw fa-asterisk"></i>

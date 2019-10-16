@@ -31,7 +31,6 @@ import { BaseInputComponent } from '../shared/base-input.component';
 export class CheckboxComponent extends BaseInputComponent implements OnDestroy {
 
     @Input() public mask = null;
-    _class = 'form-check-input man-form-control';
     public controlValue = '';
     private controlValueSubscription: Subscription;
 
@@ -54,6 +53,14 @@ export class CheckboxComponent extends BaseInputComponent implements OnDestroy {
         if (event.srcElement.localName !== 'a') {
             this.value.next(!this.value.value);
         }
+    }
+
+    public uncheck(): void {
+        this.value.next(false);
+    }
+
+    public check(): void {
+        this.value.next(true);
     }
 }
 

@@ -34,7 +34,7 @@ export class ManDialogConfig<D = any> {
     viewContainerRef?: ViewContainerRef;
 
     /** Dialog type for the dialog. The types are configured in the MAN_DIALOG_TYPES provider. */
-    type?: string;
+    size?: 'sm' | 'md' | 'lg';
 
     /** ID for the dialog. If omitted, a unique one will be generated. */
     id?: string;

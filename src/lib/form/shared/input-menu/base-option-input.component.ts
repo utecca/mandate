@@ -1,8 +1,8 @@
-import { Overlay } from '@angular/cdk/overlay';
+import { Overlay, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { BehaviorSubject } from 'rxjs';
 import { Option } from '../interfaces/option';
 import { OptionService } from '../option.service';
-import { ElementRef, HostListener, Injector, Input, OnDestroy } from '@angular/core';
+import { ElementRef, HostListener, Injector, Input, OnDestroy, ViewChild } from '@angular/core';
 import { SelectDropdownComponent } from '../../select/inner/select-dropdown.component';
 import { OptionList } from '../option-list';
 import { isFunction } from 'ngx-plumber';
@@ -11,6 +11,9 @@ import { OptionListArray } from '../option-list-array';
 import { BaseDropdownInputComponent } from './base-dropdown-input.component';
 
 export abstract class BaseOptionInputComponent extends BaseDropdownInputComponent implements OnDestroy {
+
+    /** The inner element, is the actual input. */
+    @ViewChild('inner', {static: true}) inner;
 
     /**
      * Contains the OptionList if global mode is selected.
@@ -44,9 +47,10 @@ export abstract class BaseOptionInputComponent extends BaseDropdownInputComponen
         element: ElementRef,
         overlay: Overlay,
         injector: Injector,
-        optionService: OptionService
+        optionService: OptionService,
+        sso: ScrollStrategyOptions
     ) {
-        super(element, overlay, injector, optionService);
+        super(element, overlay, injector, optionService, sso);
     }
 
     ngOnDestroy() {
@@ -70,6 +74,7 @@ export abstract class BaseOptionInputComponent extends BaseDropdownInputComponen
                     optionList: this._optionList,
                     selectedOption: this._selectedOption,
                     value: this.value,
+                    inner: this.inner
                 }
             );
         }
