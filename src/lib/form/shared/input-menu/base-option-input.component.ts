@@ -60,23 +60,24 @@ export abstract class BaseOptionInputComponent extends BaseDropdownInputComponen
     @HostListener('click')
     @HostListener('keydown', ['$event'])
     public open(event: KeyboardEvent = null): void {
-
-        if (event !== null) {
-            if (event.key.length === 1 || event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-                event = null;
-            }
-        }
-
-        if (event === null) {
-            this.openDropdown(
-                SelectDropdownComponent,
-                {
-                    optionList: this._optionList,
-                    selectedOption: this._selectedOption,
-                    value: this.value,
-                    inner: this.inner
+        if (!this._disabled) {
+            if (event !== null) {
+                if (event.key.length === 1 || event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                    event = null;
                 }
-            );
+            }
+
+            if (event === null) {
+                this.openDropdown(
+                    SelectDropdownComponent,
+                    {
+                        optionList: this._optionList,
+                        selectedOption: this._selectedOption,
+                        value: this.value,
+                        inner: this.inner
+                    }
+                );
+            }
         }
     }
 }

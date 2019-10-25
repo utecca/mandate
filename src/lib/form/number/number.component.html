@@ -1,11 +1,13 @@
 <input class="form-control man-text" #inner
        type="text"
+       [class.disabled]="_disabled"
        [attr.placeholder]="placeholder"
-       [tabindex]="tindex"
+       [tabindex]="_disabled ? -1 : tindex"
        [(ngModel)]="controlValue"
        (input)="inputValue($event.srcElement.value)"
        (blur)="onBlur($event)"
        (focus)="onFocus($event)"
+       [attr.disabled]="_disabled ? '' : null"
 >
 
 <i *ngIf="required" class="required fa fa-fw fa-asterisk"></i>

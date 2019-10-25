@@ -28,6 +28,17 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
         this._customClass = input;
     }
 
+    @Input() set disabled(input) {
+        if (input === '') {
+            this._disabled = true;
+        } else if (input === false) {
+            this._disabled = false;
+        } else {
+            this._disabled = true;
+        }
+    }
+    public _disabled = false;
+
     /** TabIndex */
     @Input() public tindex;
 
@@ -37,8 +48,6 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
     @Output() public keyup = new EventEmitter(); // TODO: Emit
 
     @Host() parent;
-
-    public _disabled = false; // TODO: Convert to input.
 
     @HostBinding('class.focus')
     public _focused = false;
@@ -92,7 +101,7 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
     }
 
     onBlur(event) {
-        // this._focused = false;
+        this._focused = false;
         this.blur.emit(null);
     }
 

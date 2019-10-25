@@ -1,12 +1,13 @@
 <input *ngIf="_rows === 1" class="form-control man-text" #inner
+       [class.disabled]="_disabled"
        [attr.type]="mask === 'password' ? 'password' : 'text'"
        [attr.placeholder]="placeholder"
-       [attr.tabindex]="tindex"
+       [tabindex]="_disabled ? -1 : tindex"
        [value]="controlValue"
        (input)="value.next($event.target.value)"
        (blur)="onBlur($event)"
        (focus)="onFocus($event)"
-       [disabled]="_disabled"
+       [attr.disabled]="_disabled ? '' : null"
 />
 
 <textarea *ngIf="_rows > 1" class="form-control man-text" #inner

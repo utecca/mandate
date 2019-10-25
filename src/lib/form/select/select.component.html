@@ -1,6 +1,6 @@
 <div class="form-control man-select" #inner
      [class.disabled]="_disabled"
-     [tabindex]="tindex"
+     [tabindex]="_disabled ? -1 : tindex"
      (blur)="onBlur($event)"
      (focus)="onFocus($event)">
     <span #value>{{ _selectedOption.value?.label }}</span>

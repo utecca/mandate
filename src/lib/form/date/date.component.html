@@ -1,9 +1,11 @@
 <input class="form-control man-date" #inner
+       [class.disabled]="_disabled"
        [attr.placeholder]="placeholder"
-       [tabindex]="tindex"
+       [tabindex]="_disabled ? -1 : tindex"
        [value]="controlValue"
        (blur)="inputValue($event.srcElement.value); onBlur($event)"
        (focus)="onFocus($event)"
+       [attr.disabled]="_disabled ? '' : null"
 >
 <i class="caret fa fa-calendar" (click)="open()"></i>
 <i *ngIf="required" class="required fa fa-fw fa-asterisk"></i>

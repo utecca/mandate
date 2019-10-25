@@ -52,5 +52,9 @@ export class CheckboxComponent extends BaseInputComponent implements OnDestroy {
     public check(): void {
         this.value.next(true);
     }
+
+    public get checked(): boolean {
+        return this.value.value;
+    }
 }
 
