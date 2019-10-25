@@ -1,9 +1,8 @@
-import {GlobalPositionStrategy, OverlayRef} from '@angular/cdk/overlay';
-import {filter, take} from 'rxjs/operators';
-import {ESCAPE} from '@angular/cdk/keycodes';
-import {BehaviorSubject, Observable, Subject} from 'rxjs/index';
-import {InputMenuContainerComponent} from './input-menu-container.component';
-import {Option} from "../interfaces/option";
+import { GlobalPositionStrategy, OverlayRef } from '@angular/cdk/overlay';
+import { filter, take } from 'rxjs/operators';
+import { ESCAPE } from '@angular/cdk/keycodes';
+import { Observable, Subject } from 'rxjs';
+import { InputMenuContainerComponent } from './input-menu-container.component';
 
 
 let uniqueId = 0;

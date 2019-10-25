@@ -12,6 +12,8 @@ import { BehaviorSubject } from 'rxjs';
 export abstract class BaseDropdownInputComponent extends BaseInputComponent {
     scrollOffset = new BehaviorSubject<{x: number, y: number}>(null);
 
+    protected dropdownIsOpen = false;
+
     constructor(
         element: ElementRef,
         private _overlay: Overlay,
@@ -36,8 +38,6 @@ export abstract class BaseDropdownInputComponent extends BaseInputComponent {
             scrollOffset: this.scrollOffset
         };
 
-        console.log('ASD', this.inner);
-
         const element  = this.getTopParent(this.inner.nativeElement); // TODO: Make a pipe for this
 
         this.scrollOffset.next({
@@ -45,12 +45,14 @@ export abstract class BaseDropdownInputComponent extends BaseInputComponent {
             y: element.scrollTop
         });
 
-        // console.log('POS 2', element.scrollTop, globalOffset(this.inner));
-        console.log('POS 2', this.inner, globalOffset(this.inner));
-
         const overlayRef = this._createOverlay(config);
         const dropdownContainer = this._attachDropdownContainer(overlayRef, config);
         this.inputMenuRef = this._attachDropdownContent(component, dropdownContainer , overlayRef, config);
+        this.dropdownIsOpen = true;
+
+        this.inputMenuRef.afterClosed.toPromise().then((result) => {
+            this.dropdownIsOpen = false;
+        });
     }
 
     private _createOverlay(config: InputMenuConfig): OverlayRef {

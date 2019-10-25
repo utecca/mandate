@@ -69,4 +69,15 @@ export class SelectComponent extends BaseOptionInputComponent implements OnInit,
         super.ngOnDestroy();
         this.selectValueSubscription.unsubscribe();
     }
+
+    onBlur(event: FocusEvent) {
+        console.log('BLUR :: Dropdown is open: ', this.dropdownIsOpen);
+        if (!this.dropdownIsOpen) {
+            console.log('BLUR', event);
+            super.onBlur(event);
+        }
+        /*if (!this.op) {
+            super.onBlur(event);
+        }*/
+    }
 }
