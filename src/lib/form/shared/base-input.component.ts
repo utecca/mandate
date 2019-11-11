@@ -111,6 +111,7 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
 
     onFocus(event) {
         this._focused = true;
+        this.ngOnTouched();
         this.inner.nativeElement.focus();
     }
 

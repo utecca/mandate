@@ -47,15 +47,19 @@ export class Dialog {
     readonly afterAllClosed: Observable<any> = defer<any>(() => this.openDialogs.length ?
         this._afterAllClosed :
         this._afterAllClosed.pipe(startWith(undefined)));
-    constructor(public _overlay: Overlay,
-                private _injector: Injector,
-                // @Optional() private _location: Location,
-                @Optional() @Inject(MAN_DIALOG_DEFAULT_OPTIONS) private _defaultOptions,
-                @Optional() @Inject(MAN_DIALOG_GLOBAL_CONFIG) private _config,
-                // @Inject(MAT_DIALOG_SCROLL_STRATEGY) private _scrollStrategy,
-                @Optional() @SkipSelf() private _parentDialog: Dialog,
-                private _overlayContainer: OverlayContainer) {
 
+
+    constructor(
+        public _overlay: Overlay,
+        private _injector: Injector,
+        // @Optional() private _location: Location,
+        @Optional() @Inject(MAN_DIALOG_DEFAULT_OPTIONS) private _defaultOptions,
+        @Optional() @Inject(MAN_DIALOG_GLOBAL_CONFIG) private _config,
+        // @Inject(MAT_DIALOG_SCROLL_STRATEGY) private _scrollStrategy,
+        @Optional() @SkipSelf() private _parentDialog: Dialog,
+        private _overlayContainer: OverlayContainer
+    ) {
+        console.log('DIALOG SERVICE INIT', _config, this);
     }
 
     /**
