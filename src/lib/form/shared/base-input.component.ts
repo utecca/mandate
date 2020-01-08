@@ -9,12 +9,22 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
 
 
     protected _customClass = '';
+    public _placeholder = '';
 
     protected inputMenuRef: InputMenuRef<any>;
     @ViewChild('inner', {static: false}) protected inner;
 
     // Inputs
-    @Input() public placeholder;
+    @Input() public set placeholder(input: string) {
+        if (typeof input !== 'undefined') {
+            if (input === '') {
+                input = '-- Vælg --';  // TODO: Get default text from settings.
+            }
+            this._placeholder = input;
+        } else {
+            this._placeholder = null;
+        }
+    }
     @Input() public set required(value) {
         this._required = value === '';
     }
@@ -119,9 +129,16 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
         return this.element.nativeElement;
     }
 
-    focus () {
+    /**
+     * Focus the input.
+     * Optionally select the content.
+     */
+    focus (selectContent = false) {
         setTimeout(() => {
             this.inner.nativeElement.focus();
+            if (selectContent === true) {
+                this.inner.nativeElement.select();
+            }
         }, 100);
     }
 

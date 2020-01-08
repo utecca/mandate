@@ -1,5 +1,6 @@
 import { OptionList } from './option-list';
 import { Option } from './interfaces/option';
+import { OptionListRef } from './option-list-ref';
 
 /**
  * Used for wrapping a callback in an OptionList.
@@ -18,12 +19,15 @@ export class OptionListFunction extends OptionList {
         return undefined;
     }
 
-    options(search: string): Promise<Option[]> {
+    options(optionListRef: OptionListRef, search: string): Promise<Option[]> {
         return undefined;
     }
 
     preOptions(): Promise<Option[]> {
         return undefined;
+    }
+
+    refetch(): void {
     }
 
 }

@@ -22,12 +22,6 @@ import { Subscription } from 'rxjs';
     ]
 })
 export class SelectComponent extends BaseOptionInputComponent implements OnInit, OnDestroy {
-
-    /**
-     * Is the current value loading?
-     */
-    public isLoading = false;
-
     @Input() private filter = false;
 
     /**
@@ -46,17 +40,15 @@ export class SelectComponent extends BaseOptionInputComponent implements OnInit,
 
         setTimeout(() => {
             this.selectValueSubscription = this.value.subscribe((value) => {
-                if (typeof this._optionList !== 'undefined') {
-                    this.isLoading = true;
-                    this._optionList.option(value)
+                if (typeof this._optionListRef !== 'undefined') {
+                    /*this._optionListRef.option(value)
                         .then((option) => {
                             // TODO Make sure that the value has not changed since.
                             this._selectedOption.next(option);
-                            this.isLoading = false;
                         })
-                        .catch();
+                        .catch();*/
                 } else {
-                    throw Error('Select-inputs must have options defined.');
+                    throw Error('Select-inputs must have options defined.'); // TODO Remove this while block
                 }
             });
         }, 0);

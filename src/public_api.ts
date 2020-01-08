@@ -7,6 +7,7 @@ export * from './lib/form/shared/interfaces/option';
 export * from './lib/form/shared/option.service';
 export * from './lib/form/shared/option-list';
 export * from './lib/form/shared/option-list-array';
+export * from './lib/form/shared/option-list-ref';
 
 export * from './lib/ui/notification/api';
 export * from './lib/ui/dialog/api';

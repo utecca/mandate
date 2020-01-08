@@ -2,20 +2,20 @@
     <div class="filter-bar">
         <div class="d-flex">
             <input autofocus #filter type="text" class="filter flex-fill man-ignore-blur" (input)="onFilter($event)" #filterInput *ngIf="_config.filter">
-            <button *ngIf="inputMenuRef?.data?.optionList?.createOptionCallback !== null"
+            <button *ngIf="inputMenuRef?.data?.optionListRef?._optionList?.createOptionCallback !== null"
                     class="btn btn-primary" (click)="createOption()">
-                <i class="fa fa-fw fa-plus"></i> Ny
+                <i class="far fa-fw fa-plus"></i> Ny
             </button>
         </div>
     </div>
 
-    <div class="no-options-found" *ngIf="filterText !== '' && (inputMenuRef.data?.optionList.currentOptions | async)?.length === 0">
+    <div class="no-options-found" *ngIf="filterText !== '' && (inputMenuRef.data?.optionListRef.currentOptions | async)?.length === 0">
         <strong>{{ filterText }}</strong> blev ikke fundet.<br>
-        Tryk enter for at oprette...
+        <span *ngIf="inputMenuRef?.data?.optionListRef?._optionList?.createOptionCallback !== null">Tryk enter for at oprette...</span>
     </div>
 
     <div class="options" #optionsContainer>
-        <div class="option" #options *ngFor="let option of (inputMenuRef.data?.optionList.currentOptions | async); let index = index"
+        <div class="option" #options *ngFor="let option of (inputMenuRef.data?.optionListRef.currentOptions | async); let index = index"
              (click)="setValue(option.value)" [class.focus]="focusedOption === index">
             {{ option.label }}
         </div>

@@ -21,6 +21,7 @@ import { BaseInputComponent } from '../shared/base-input.component';
 export class CheckboxComponent extends BaseInputComponent implements OnDestroy {
 
     @Input() public mask = null;
+    @Input() public displayValue;
     public controlValue = '';
     private controlValueSubscription: Subscription;
 

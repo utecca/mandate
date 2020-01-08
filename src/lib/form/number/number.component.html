@@ -1,7 +1,7 @@
 <input class="form-control man-text" #inner
        type="text"
        [class.disabled]="_disabled"
-       [attr.placeholder]="placeholder"
+       [attr.placeholder]="_placeholder"
        [tabindex]="_disabled ? -1 : tindex"
        [(ngModel)]="controlValue"
        (input)="inputValue($event.srcElement.value)"
@@ -10,4 +10,4 @@
        [attr.disabled]="_disabled ? '' : null"
 >
 
-<i *ngIf="required" class="required fa fa-fw fa-asterisk"></i>
+<i *ngIf="required" class="required far fa-fw fa-asterisk"></i>

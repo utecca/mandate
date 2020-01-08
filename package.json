@@ -1,6 +1,6 @@
 {
   "name": "@mandate/core",
-  "version": "0.3.8",
+  "version": "0.3.16",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -48,7 +48,6 @@
     "typescript": "3.5.3"
   },
   "dependencies": {
-    "collect.js": "^4.16.5",
     "ngx-plumber": "^0.0.0-alpha.10"
   }
 }

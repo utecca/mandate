@@ -27,7 +27,7 @@ export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
         this.initKeyEventListeners();
 
         // Fetch options
-        this.inputMenuRef.data.optionList.options('');
+        // this.inputMenuRef.data.optionList.options('');
     }
 
     ngAfterViewInit() {
@@ -47,21 +47,18 @@ export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
         });
 
         // Find the currently selected option if it is available in currentOptions
-        this.inputMenuRef.data.optionList.currentOptions.value.forEach((option, index) => {
+        /*this.inputMenuRef.data.optionList.currentOptions.value.forEach((option, index) => {
             if (option.value === this.inputMenuRef.data.value.value) {
                 this.setFocusedOption(index);
             }
 
-        });
+        });*/
     }
 
     public onFilter(event): void {
-        this.inputMenuRef.data.optionList.options(event.srcElement.value.toLowerCase()).then(
-            error => {},
-            error => {}
-        );
+        this.inputMenuRef.data.optionListRef.options(event.target.value.toLowerCase());
         this.focusedOption = 0;
-        this.filterText = event.srcElement.value;
+        this.filterText = event.target.value;
     }
 
     public setValue(value: any): void {
@@ -84,16 +81,20 @@ export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
     }
 
     public createOption(): void {
-        this.inputMenuRef.close();
-        this.inputMenuRef.data.optionList.createOptionCallback(this.filterText)
-            .then(
-                success => {
-                    this.setValue(success);
-                    // Run close again, to restore focus.
-                    this.inputMenuRef.close();
-                },
-                error => {}
-            );
+        if (this.inputMenuRef.data.optionListRef._optionList.createOptionCallback) { // TODO Is this enough filtering?
+            this.inputMenuRef.close();
+            this.inputMenuRef.data.optionListRef._optionList.createOptionCallback(this.filterText)
+                .then(
+                    success => {
+                        this.setValue(success);
+                        // Refetch the options
+                        this.inputMenuRef.data.optionListRef.options();
+                        // Run close again, to restore focus.
+                        this.inputMenuRef.close();
+                    },
+                    error => {}
+                );
+        }
     }
 
     ngOnDestroy() {
@@ -111,23 +112,22 @@ export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
                     break;
                 case 'ArrowDown':
                     event.preventDefault();
-                    if (this.focusedOption + 1 < this.inputMenuRef.data.optionList.currentOptions.value.length) {
+                    if (this.focusedOption + 1 < this.inputMenuRef.data.optionListRef.currentOptions.value.length) {
                         this.setFocusedOption(this.focusedOption + 1);
                     }
                     break;
+                case 'Tab':
                 case 'Enter':
-                    event.preventDefault();
-                    if (this.inputMenuRef.data.optionList.currentOptions.value.length === 0) {
+                    if (event.key !== 'Tab') {
+                        event.preventDefault();
+                    }
+                    if (this.inputMenuRef.data.optionListRef.currentOptions.value.length === 0) {
                         this.createOption();
                     } else {
-                        if (this.inputMenuRef.data.optionList.currentOptions.value[this.focusedOption]) {
-                            this.setValue(this.inputMenuRef.data.optionList.currentOptions.value[this.focusedOption].value);
+                        if (this.inputMenuRef.data.optionListRef.currentOptions.value[this.focusedOption]) {
+                            this.setValue(this.inputMenuRef.data.optionListRef.currentOptions.value[this.focusedOption].value);
                         }
                     }
-                    break;
-                case 'Tab':
-                    this.inputMenuRef.close(true);
-                    // event.preventDefault();
                     break;
             }
         });

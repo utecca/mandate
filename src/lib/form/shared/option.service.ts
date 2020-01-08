@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 import { OptionList } from './option-list';
+import { OptionListRef } from './option-list-ref';
+import { isFunction } from 'ngx-plumber';
+import { Option } from './interfaces/option';
+import { BehaviorSubject } from 'rxjs';
+import { OptionListArray } from './option-list-array';
 
 
 @Injectable({
@@ -29,10 +34,21 @@ export class OptionService {
         }
     }
 
-    /**
-     * Get an OptionList from it's id.
-     */
-    public get(id: string): OptionList {
+    public get(
+        options: Option[] | string | ((filter: string) => Option[]), value: BehaviorSubject<any>,
+        placeholder: string,
+        placeholderInOptions: boolean
+    ): OptionListRef {
+        if (isFunction(options)) {
+            // this._optionList = new OptionListFunction(options);
+        } else if (options instanceof Array) {
+            return new OptionListRef(new OptionListArray(options), value, placeholder, placeholderInOptions);
+        } else if (typeof options !== 'undefined') {
+            return new OptionListRef(this.getOptionList(<string>options), value, placeholder, placeholderInOptions);
+        }
+    }
+
+    private getOptionList(id: string): OptionList {
         if (!this._optionLists.hasOwnProperty(id)) {
             throw Error('An OptionList with id "' + id +
                 '" has not been registered. Please register OptionLists before requesting options from them.');

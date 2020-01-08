@@ -1,7 +1,7 @@
 <input *ngIf="_rows === 1" class="form-control man-text" #inner
        [class.disabled]="_disabled"
        [attr.type]="mask === 'password' ? 'password' : 'text'"
-       [attr.placeholder]="placeholder"
+       [attr.placeholder]="_placeholder"
        [tabindex]="_disabled ? -1 : tindex"
        [value]="controlValue"
        (input)="value.next($event.target.value)"
@@ -12,7 +12,7 @@
 
 <textarea *ngIf="_rows > 1" class="form-control man-text" #inner
           [attr.rows]="_rows"
-          [attr.placeholder]="placeholder"
+          [attr.placeholder]="_placeholder"
           [attr.tabindex]="tindex"
           [value]="controlValue"
           (input)="value.next($event.target.value)"
@@ -20,4 +20,4 @@
           (focus)="onFocus($event)"
           [disabled]="_disabled"></textarea>
 
-<i *ngIf="required" class="required fa fa-fw fa-asterisk"></i>
+<i *ngIf="required" class="required far fa-fw fa-asterisk"></i>

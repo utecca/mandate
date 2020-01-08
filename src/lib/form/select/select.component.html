@@ -3,9 +3,11 @@
      [tabindex]="_disabled ? -1 : tindex"
      (blur)="onBlur($event)"
      (focus)="onFocus($event)">
-    <span #value>{{ _selectedOption.value?.label }}</span>
-    <i class="caret fa fa-circle-o-notch fa-spin" *ngIf="isLoading"></i>
-    <i class="caret fa fa-chevron-down" *ngIf="!isLoading"></i>
+    <span [class.placeholder]="_optionListRef.selectedOption.value?.placeholder === true">
+        {{ _optionListRef.selectedOption.value?.label }}
+    </span>
+    <i class="caret far fa-spinner-third fa-spin" *ngIf="_optionListRef.isLoading"></i>
+    <i class="caret far fa-chevron-down" *ngIf="!_optionListRef.isLoading"></i>
 </div>
 
-<i *ngIf="required" class="required fa fa-fw fa-asterisk"></i>
+<i *ngIf="required" class="required far fa-fw fa-asterisk"></i>

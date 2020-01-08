@@ -1,14 +1,10 @@
 import { Overlay, ScrollStrategyOptions } from '@angular/cdk/overlay';
-import { BehaviorSubject } from 'rxjs';
 import { Option } from '../interfaces/option';
 import { OptionService } from '../option.service';
 import { ElementRef, HostListener, Injector, Input, OnDestroy, ViewChild } from '@angular/core';
 import { SelectDropdownComponent } from '../../select/inner/select-dropdown.component';
-import { OptionList } from '../option-list';
-import { isFunction } from 'ngx-plumber';
-import { OptionListFunction } from '../option-list-function';
-import { OptionListArray } from '../option-list-array';
 import { BaseDropdownInputComponent } from './base-dropdown-input.component';
+import { OptionListRef } from '../option-list-ref';
 
 export abstract class BaseOptionInputComponent extends BaseDropdownInputComponent implements OnDestroy {
 
@@ -18,30 +14,20 @@ export abstract class BaseOptionInputComponent extends BaseDropdownInputComponen
     /**
      * Contains the OptionList if global mode is selected.
      */
-    public _optionList: OptionList;
-
-    /**
-     * Contains the selected option (this.value contains the actual value).
-     */
-    public _selectedOption = new BehaviorSubject<Option>(null);
+    public _optionListRef: OptionListRef;
 
     @Input()
     private set options(options: Option[] | string | ((filter: string) => Option[])) {
-        if (isFunction(options)) {
-            this._optionList = new OptionListFunction(options);
-        } else if (options instanceof Array) {
-            this._optionList = new OptionListArray(options);
-            console.log('OPTS', this._optionList);
-        } else if (typeof options !== 'undefined') {
-            this._optionList = this._optionService.get(<string>options);
-        }
-
-        // Set placeholder
-        this._optionList.placeholder = this.placeholder;
-
-        // Init OptionList
-        this._optionList.init();
+        this._optionListRef = this._optionService.get(options, this.value, this._placeholder, this.placeholderInOptions);
+        // TODO Subscribe to valuechanges!
     }
+
+    @Input()
+    private set exclude(values: number[]) {
+        this._optionListRef.exclude(values);
+    }
+
+    @Input() placeholderInOptions = true;
 
     constructor(
         element: ElementRef,
@@ -71,8 +57,7 @@ export abstract class BaseOptionInputComponent extends BaseDropdownInputComponen
                 this.openDropdown(
                     SelectDropdownComponent,
                     {
-                        optionList: this._optionList,
-                        selectedOption: this._selectedOption,
+                        optionListRef: this._optionListRef,
                         value: this.value,
                         inner: this.inner
                     }
