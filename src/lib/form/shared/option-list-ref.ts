@@ -25,7 +25,7 @@ export class OptionListRef {
         public _optionList: OptionList | OptionListFunction | OptionListArray,
         private value: BehaviorSubject<any>,
         private placeholder: string,
-        private _showPlaceholderAsOption: boolean
+        private _showPlaceholderAsOption: BehaviorSubject<boolean>
     ) {
         // Get the initial options
         setTimeout(() => {
@@ -62,7 +62,7 @@ export class OptionListRef {
             result => {
                 const options: Option[] = [];
 
-                if ((search === '' || search === null) && this.placeholder !== '' && this._showPlaceholderAsOption) {
+                if ((search === '' || search === null) && this.placeholder !== '' && this._showPlaceholderAsOption.value === true) {
                     options.push(this._placeholder);
                 }
 

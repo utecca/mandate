@@ -37,7 +37,7 @@ export class OptionService {
     public get(
         options: Option[] | string | ((filter: string) => Option[]), value: BehaviorSubject<any>,
         placeholder: string,
-        placeholderInOptions: boolean
+        placeholderInOptions: BehaviorSubject<boolean>
     ): OptionListRef {
         if (isFunction(options)) {
             // this._optionList = new OptionListFunction(options);

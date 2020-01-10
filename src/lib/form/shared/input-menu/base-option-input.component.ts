@@ -5,6 +5,7 @@ import { ElementRef, HostListener, Injector, Input, OnDestroy, ViewChild } from 
 import { SelectDropdownComponent } from '../../select/inner/select-dropdown.component';
 import { BaseDropdownInputComponent } from './base-dropdown-input.component';
 import { OptionListRef } from '../option-list-ref';
+import { BehaviorSubject } from 'rxjs';
 
 export abstract class BaseOptionInputComponent extends BaseDropdownInputComponent implements OnDestroy {
 
@@ -16,9 +17,11 @@ export abstract class BaseOptionInputComponent extends BaseDropdownInputComponen
      */
     public _optionListRef: OptionListRef;
 
+    public _placeholderInOptions = new BehaviorSubject<boolean>(true);
+
     @Input()
     private set options(options: Option[] | string | ((filter: string) => Option[])) {
-        this._optionListRef = this._optionService.get(options, this.value, this._placeholder, this.placeholderInOptions);
+        this._optionListRef = this._optionService.get(options, this.value, this._placeholder, this._placeholderInOptions);
         // TODO Subscribe to valuechanges!
     }
 
@@ -27,7 +30,12 @@ export abstract class BaseOptionInputComponent extends BaseDropdownInputComponen
         this._optionListRef.exclude(values);
     }
 
-    @Input() placeholderInOptions = true;
+    @Input()
+    public set placeholderInOptions(value) {
+        if (value !== this._placeholderInOptions.value) {
+            this._placeholderInOptions.next(value);
+        }
+    }
 
     constructor(
         element: ElementRef,
