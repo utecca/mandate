@@ -134,13 +134,15 @@ export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
     }
 
     @HostListener('document:click', ['$event'])
-    public clickEventListener($event: Event) {
+    public clickEventListener($event: MouseEvent) {
         if (this.inputMenuRef.isOpen) {
-            if (isDescendant(this.dropdown.nativeElement, $event.srcElement)) {
-                this.filterInput.nativeElement.focus();
+            if (isDescendant(this.dropdown.nativeElement, $event.target)) {
+                if (!(<HTMLInputElement>$event.target).classList.contains('option')) {
+                    this.filterInput.nativeElement.focus();
+                }
+                // Do nothing - the event is handled elsewhere
             } else {
                 this.inputMenuRef.close(false);
-                // console.log('::: FOCUS AFTER CLICK');
             }
         }
     }
