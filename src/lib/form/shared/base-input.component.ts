@@ -9,6 +9,7 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
 
 
     protected _customClass = '';
+    protected _innerClass = '';
     public _placeholder = '';
 
     protected inputMenuRef: InputMenuRef<any>;
@@ -34,7 +35,7 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
     }
 
 
-    @Input() set class(input) {
+    @Input() set innerClass(input) {
         this._customClass = input;
     }
 
@@ -127,6 +128,10 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
 
     get nativeElement() {
         return this.element.nativeElement;
+    }
+
+    get class() {
+        return this._customClass + ' ' + this._innerClass;
     }
 
     /**

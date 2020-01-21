@@ -28,6 +28,8 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
     @Input() nullable = false;
     public controlValue = '';
 
+    protected _innerClass = 'form-control man-text';
+
     private controlValueSubscription: Subscription;
 
     constructor(element: ElementRef, overlay: Overlay, injector: Injector, optionService: OptionService) {

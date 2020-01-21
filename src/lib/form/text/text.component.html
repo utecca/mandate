@@ -1,4 +1,6 @@
-<input *ngIf="_rows === 1" class="form-control man-text" #inner
+<input #inner
+       *ngIf="_rows === 1"
+       [class]="class"
        [class.disabled]="_disabled"
        [attr.type]="mask === 'password' ? 'password' : 'text'"
        [attr.placeholder]="_placeholder"
@@ -10,7 +12,9 @@
        [attr.disabled]="_disabled ? '' : null"
 />
 
-<textarea *ngIf="_rows > 1" class="form-control man-text" #inner
+<textarea #inner
+          *ngIf="_rows > 1"
+          [class]="class"
           [attr.rows]="_rows"
           [attr.placeholder]="_placeholder"
           [attr.tabindex]="tindex"

@@ -27,6 +27,7 @@ export class TextComponent extends BaseInputComponent implements OnDestroy {
     public controlValue = '';
     public _rows = 1;
     private controlValueSubscription: Subscription;
+    protected _innerClass = 'form-control man-text';
 
     constructor(element: ElementRef, overlay: Overlay, injector: Injector, optionService: OptionService) {
         super(element, optionService);
