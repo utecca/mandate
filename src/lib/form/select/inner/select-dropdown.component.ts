@@ -87,10 +87,12 @@ export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
                 .then(
                     success => {
                         this.setValue(success);
+
+                        // Focus the input
+                        this.inputMenuRef.data.inner.nativeElement.focus();
+
                         // Refetch the options
                         this.inputMenuRef.data.optionListRef.options();
-                        // Run close again, to restore focus.
-                        this.inputMenuRef.close();
                     },
                     error => {}
                 );
