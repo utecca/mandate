@@ -124,7 +124,7 @@ export class InputMenuRef<T, R = any> {
                 this._overlayRef.detachBackdrop();
             });*/
 
-        this._containerInstance._startExitAnimation();
+        this._containerInstance._startExitAnimation(restoreFocus);
     }
 
     public markAsOpen(): void {
@@ -140,9 +140,6 @@ export class InputMenuRef<T, R = any> {
      */
     updatePosition(position?: any): this {
         const strategy = this._getPositionStrategy();
-
-        console.log('POS', window.pageYOffset);
-
         if (position && (position.left || position.right)) {
             position.left ? strategy.left(position.left) : strategy.right(position.right);
         } else {
@@ -154,7 +151,6 @@ export class InputMenuRef<T, R = any> {
         } else {
             strategy.centerVertically();
         }
-
         this._overlayRef.updatePosition();
 
         return this;

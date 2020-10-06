@@ -33,6 +33,8 @@ export function throwMatDialogContentAlreadyAttachedError() {
 })
 export class InputMenuContainerComponent extends BasePortalOutlet implements OnDestroy {
 
+    private restoreFocusOnAnimationEnd = true;
+
     constructor(
         private _elementRef: ElementRef,
         private _focusTrapFactory: FocusTrapFactory,
@@ -49,7 +51,7 @@ export class InputMenuContainerComponent extends BasePortalOutlet implements OnD
     /** The portal outlet inside of this container into which the dialog content will be loaded. */
     @ViewChild(CdkPortalOutlet, {static: true}) _portalOutlet: CdkPortalOutlet;
 
-    position = {
+    public position = {
         x: 0,
         y: 0
     };
@@ -168,14 +170,17 @@ export class InputMenuContainerComponent extends BasePortalOutlet implements OnD
     /** Callback, invoked when an animation on the host starts. */
     _onAnimationStart(event: AnimationEvent) {
         if (event.toState === 'exit') {
-            this._restoreFocus();
+            if (this.restoreFocusOnAnimationEnd) {
+                this._restoreFocus();
+            }
         }
 
         this._animationStateChanged.emit(event);
     }
 
     /** Starts the dialog exit animation. */
-    _startExitAnimation(): void {
+    _startExitAnimation(restoreFocus = true): void {
+        this.restoreFocusOnAnimationEnd = restoreFocus;
         console.log('::: ANIMATION END');
         this._state = 'exit';
 
@@ -190,10 +195,26 @@ export class InputMenuContainerComponent extends BasePortalOutlet implements OnD
     private calcPosition(e = null) {
         if (typeof this._config !== 'undefined') {
             const pos = this._config.data.inner.nativeElement.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            const dropdownHeight = 390 + 36;
+            const margin = 20;
+            let top = pos.top;
+
+
+            if (windowHeight - dropdownHeight < dropdownHeight - margin) {
+                // Open upwards
+                top = top - dropdownHeight;
+
+                // TODO Check if there's enough space above. Otherwise open downwards, but limit the height of the dropdown!
+            } else {
+                top = pos.top;
+            }
+
+            // console.log('CALC POS', pos);
 
             this.position = {
                 x: pos.left,
-                y: pos.top // this._config.parentElementOffset.y - this._config.scrollOffset.value.y
+                y: top
             };
         }
     }

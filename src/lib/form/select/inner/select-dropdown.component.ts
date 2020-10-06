@@ -136,10 +136,12 @@ export class SelectDropdownComponent implements OnDestroy, AfterViewInit {
     }
 
     @HostListener('document:click', ['$event'])
-    public clickEventListener($event: MouseEvent) {
+    public clickEventListener(event: MouseEvent) {
+        // TODO Also restore focus if the element itself is clicked!
+        console.log('Click', event);
         if (this.inputMenuRef.isOpen) {
-            if (isDescendant(this.dropdown.nativeElement, $event.target)) {
-                if (!(<HTMLInputElement>$event.target).classList.contains('option')) {
+            if (isDescendant(this.dropdown.nativeElement, event.target)) {
+                if (!(<HTMLInputElement>event.target).classList.contains('option')) {
                     this.filterInput.nativeElement.focus();
                 }
                 // Do nothing - the event is handled elsewhere

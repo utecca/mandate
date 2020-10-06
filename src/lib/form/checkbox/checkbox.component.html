@@ -3,7 +3,8 @@
            (click)="onClick($event)"
            (blur)="onBlur($event)"
            (focus)="onFocus($event)">
-        <i class="far fa-check" *ngIf="((value | async) === true && displayValue !== false) || displayValue === true"></i>
+        <i class="far fa-check" *ngIf="((value | async) === true && displayValue === null) || displayValue === true"></i>
+        <i class="far fa-minus" *ngIf="displayValue === 'indeterminate'"></i>
     </div>
     <div class="checkbox-label">
         <span (click)="onClick($event)">
