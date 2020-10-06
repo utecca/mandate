@@ -1,0 +1,27 @@
+<input #inner
+       *ngIf="_rows === 1"
+       [class]="class"
+       [class.disabled]="_disabled"
+       [attr.type]="mask === 'password' ? 'password' : 'text'"
+       [attr.placeholder]="_placeholder.value"
+       [tabindex]="_disabled ? -1 : tindex"
+       [value]="controlValue"
+       (input)="value.next($event.target.value)"
+       (blur)="onBlur($event)"
+       (focus)="onFocus($event)"
+       [attr.disabled]="_disabled ? '' : null"
+/>
+
+<textarea #inner
+          *ngIf="_rows > 1"
+          [class]="class"
+          [attr.rows]="_rows"
+          [attr.placeholder]="_placeholder.value"
+          [attr.tabindex]="tindex"
+          [value]="controlValue"
+          (input)="value.next($event.target.value)"
+          (blur)="onBlur($event)"
+          (focus)="onFocus($event)"
+          [disabled]="_disabled"></textarea>
+
+<i *ngIf="required" class="required far fa-fw fa-asterisk"></i>
