@@ -4,7 +4,7 @@
   "lib": {
     "entryFile": "mandate/core/public_api.ts"
   },
-  "whitelistedNonPeerDependencies": [
+  "allowedNonPeerDependencies": [
     "collect.js",
     "ngx-plumber"
   ]
