@@ -1,9 +1,12 @@
-import { ElementRef, EventEmitter, Host, HostBinding, Input, OnDestroy, Output, ViewChild, Directive } from '@angular/core';
+import { ElementRef, EventEmitter, Host, HostBinding, Input, OnDestroy, Output, ViewChild, Directive, Component } from '@angular/core';
 import { InputMenuRef } from './input-menu/input-menu-ref';
 import { AbstractControl, ControlValueAccessor, ValidationErrors, Validator } from '@angular/forms';
 import { OptionService } from './option.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
+@Component({
+    template: '',
+})
 export abstract class BaseInputComponent implements ControlValueAccessor, Validator, OnDestroy {
     private _required;
 

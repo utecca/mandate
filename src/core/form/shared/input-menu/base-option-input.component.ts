@@ -1,12 +1,15 @@
 import { Overlay, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { Option } from '../interfaces/option';
 import { OptionService } from '../option.service';
-import { ElementRef, HostListener, Injector, Input, OnDestroy, ViewChild, Directive } from '@angular/core';
+import { ElementRef, HostListener, Injector, Input, OnDestroy, ViewChild, Directive, Component } from '@angular/core';
 import { SelectDropdownComponent } from '../../select/inner/select-dropdown.component';
 import { BaseDropdownInputComponent } from './base-dropdown-input.component';
 import { OptionListRef } from '../option-list-ref';
 import { BehaviorSubject } from 'rxjs';
 
+@Component({
+    template: '',
+})
 export abstract class BaseOptionInputComponent extends BaseDropdownInputComponent implements OnDestroy {
 
     /** The inner element, is the actual input. */

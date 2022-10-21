@@ -4,8 +4,8 @@
   "newProjectRoot": "",
   "projects": {
     "mandate": {
-      "root": "mandate",
-      "sourceRoot": "src",
+      "root": "src",
+      "sourceRoot": "core",
       "projectType": "library",
       "prefix": "man",
       "architect": {
@@ -17,7 +17,7 @@
           },
           "configurations": {
             "production": {
-              "tsConfig": "mandate/tsconfig.lib.prod.json"
+              "tsConfig": "src/tsconfig.lib.prod.json"
             }
           }
         },
@@ -178,6 +178,5 @@
         }
       }
     }
-  },
-  "defaultProject": "mandate"
+  }
 }
