@@ -1,13 +1,41 @@
-<div class="form-control man-select" #inner
+<div class="form-control d-flex man-select"
      [class.disabled]="_disabled"
-     [tabindex]="_disabled ? -1 : tindex"
+     [tabindex]="_disabled || isOpen ? -1 : _tabIndex"
+     #input
+     cdkOverlayOrigin
+     #origin="cdkOverlayOrigin"
+     (click)="isOpen = !isOpen"
+     (keydown)="onKeyDown($event)"
      (blur)="onBlur($event)"
-     (focus)="onFocus($event)">
-    <span [class.placeholder]="_optionListRef.selectedOption.value?.placeholder === true">
-        {{ _optionListRef.selectedOption.value?.label }}
-    </span>
-    <i class="caret far fa-spinner-third fa-spin" *ngIf="_optionListRef.isLoading"></i>
-    <i class="caret far fa-chevron-down" *ngIf="!_optionListRef.isLoading"></i>
+     (focus)="onFocus($event)"
+>
+    <div
+        class="flex-fill"
+        [class.placeholder]="optionListRef.selectedOption.value?.placeholder === true"
+    >
+        {{ optionListRef.selectedOption.value?.label }} {{ _tabIndex }}
+    </div>
+    <i class="caret far fa-spinner-third fa-spin" *ngIf="optionListRef.isLoading"></i>
+    <i class="caret far fa-chevron-down" *ngIf="!optionListRef.isLoading && !isOpen"></i>
+    <i class="caret far fa-times" *ngIf="!optionListRef.isLoading && isOpen"></i>
 </div>
 
-<i *ngIf="required" class="required far fa-fw fa-asterisk"></i>
+<ng-template
+    #overlay
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="origin"
+    [cdkConnectedOverlayOpen]="isOpen"
+    [cdkConnectedOverlayScrollStrategy]="scrollStrategy"
+    (overlayOutsideClick)="onOutsideClick($event)"
+    (detach)="isOpen = false"
+>
+    <man-select-dropdown
+        cdkTrapFocus
+        [cdkTrapFocusAutoCapture]="true"
+        (newValue)="this.isOpen = false; value.next($event)"
+        (clickCreate)="onClickCreate($event)"
+        [tindex]="_tabIndex"
+        [value]="value | async"
+        [optionListRef]="optionListRef"
+    ></man-select-dropdown>
+</ng-template>

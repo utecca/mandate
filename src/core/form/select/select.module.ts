@@ -1,21 +1,23 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { SelectComponent } from './select.component';
-import { SelectDropdownComponent } from './inner/select-dropdown.component';
+import { DropdownComponent } from './dropdown.component';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { CommonModule } from '@angular/common';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @NgModule({
     declarations: [
         SelectComponent,
-        SelectDropdownComponent
-    ],
-    entryComponents: [
-        SelectDropdownComponent
+        DropdownComponent,
     ],
     exports: [
-        SelectComponent
+        SelectComponent,
     ],
     imports: [
-        CommonModule
+        OverlayModule,
+        CommonModule,
+        A11yModule
     ]
 })
-export class SelectModule { }
+export class SelectModule {
+}

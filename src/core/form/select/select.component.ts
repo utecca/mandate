@@ -1,75 +1,108 @@
-import { Component, ElementRef, forwardRef, Injector, Input, OnDestroy, OnInit } from '@angular/core';
-import { Overlay, ScrollStrategyOptions } from '@angular/cdk/overlay';
-import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, EventEmitter, forwardRef, Input, Output, ViewChild } from '@angular/core';
+import { FormInputComponent } from '../form-input.component';
+import { Option } from '../shared/interfaces/option';
+import { CdkConnectedOverlay, ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { OptionService } from '../shared/option.service';
-import { BaseOptionInputComponent } from '../shared/input-menu/base-option-input.component';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { OptionListRef } from '../shared/option-list-ref';
+import { isDescendant } from 'ngx-plumber';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+    templateUrl: './select.component.html',
     selector: 'man-select',
-    templateUrl: 'select.component.html',
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => SelectComponent),
             multi: true,
         },
-        {
-            provide: NG_VALIDATORS,
-            useExisting: forwardRef(() => SelectComponent),
-            multi: true,
-        }
     ]
 })
-export class SelectComponent extends BaseOptionInputComponent implements OnInit, OnDestroy {
-    @Input() private filter = false;
+export class SelectComponent extends FormInputComponent {
+    public isOpen = false;
+    public scrollStrategy: ScrollStrategy;
+    public optionListRef: OptionListRef;
+    public _placeholderInOptions = new BehaviorSubject<boolean>(true);
 
-    /**
-     * Contains the value subscription.
-     */
-    private selectValueSubscription: Subscription;
+    @ViewChild('input') private input;
+    @ViewChild('origin') private origin;
+    @ViewChild('overlay') private overlay: CdkConnectedOverlay;
+
+    @Output() public focus = new EventEmitter<FocusEvent>();
+    @Output() public blur = new EventEmitter<FocusEvent>();
+
+    @Input()
+    private set options(options: Option[] | string | ((filter: string) => Option[])) {
+        this.optionListRef = this.optionService.get(options, this.value, this._placeholder, this._placeholderInOptions);
+    }
+
+    @Input()
+    public set placeholderInOptions(value: boolean) {
+        if (value !== this._placeholderInOptions.value) {
+            this._placeholderInOptions.next(value);
+        }
+    }
+
+    @Input()
+    public set placeholder(input: string) {
+        if (typeof input !== 'undefined') {
+            if (input === '') {
+                input = '-- Vælg --';  // TODO: Get default text from settings.
+            }
+            this._placeholder.next(input);
+        } else {
+            this._placeholder = null;
+        }
+    }
 
     constructor(
-        element: ElementRef,
-        overlay: Overlay,
-        injector: Injector,
-        optionService: OptionService,
-        sso: ScrollStrategyOptions
+        sso: ScrollStrategyOptions,
+        private optionService: OptionService,
     ) {
-        super(element, overlay, injector, optionService, sso);
-
-        setTimeout(() => {
-            this.selectValueSubscription = this.value.subscribe((value) => {
-                if (typeof this._optionListRef !== 'undefined') {
-                    /*this._optionListRef.option(value)
-                        .then((option) => {
-                            // TODO Make sure that the value has not changed since.
-                            this._selectedOption.next(option);
-                        })
-                        .catch();*/
-                } else {
-                    throw Error('Select-inputs must have options defined.'); // TODO Remove this while block
-                }
-            });
-        }, 0);
+        super();
+        this.scrollStrategy = sso.close();
     }
 
-    ngOnInit() {
-    }
-
-    ngOnDestroy() {
-        super.ngOnDestroy();
-        this.selectValueSubscription.unsubscribe();
-    }
-
-    onBlur(event: FocusEvent) {
-        console.log('BLUR :: Dropdown is open: ', this.dropdownIsOpen);
-        if (!this.dropdownIsOpen) {
-            console.log('BLUR', event);
-            super.onBlur(event);
+    public onOutsideClick(event: MouseEvent): void {
+        // Ignore the click if the origin was clicked. CDK will take care of detaching the overlay
+        if (!isDescendant(this.origin.elementRef.nativeElement, event.target)) {
+            this.isOpen = false;
         }
-        /*if (!this.op) {
-            super.onBlur(event);
-        }*/
+    }
+
+    public onKeyDown(event: KeyboardEvent): void {
+        if (this._disabled) {
+            return;
+        }
+        if (event.key.length === 1 || ['ArrowUp', 'ArrowDown'].includes(event.key)) {
+            this.isOpen = true;
+        }
+    }
+
+    public onClickCreate(text: string): void {
+        this.isOpen = false;
+        // this.inputMenuRef.close();
+        this.optionListRef._optionList.createOptionCallback(text)
+            .then(
+                success => {
+                    this.value.next(success);
+
+                    // Focus the input
+                    this.input.nativeElement.focus();
+
+                    // Refetch the options
+                    this.optionListRef.options();
+                },
+                error => {}
+            );
+    }
+
+    public onBlur(event: FocusEvent): void {
+        this.blur.emit(event);
+    }
+
+    public onFocus(event: FocusEvent): void {
+        this.focus.emit(event);
     }
 }

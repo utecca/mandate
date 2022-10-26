@@ -18,6 +18,9 @@
           "configurations": {
             "production": {
               "tsConfig": "src/tsconfig.lib.prod.json"
+            },
+            "ivy": {
+              "tsConfig": "src/tsconfig.lib.ivy.json"
             }
           }
         },

@@ -22,6 +22,7 @@
           (input)="value.next($event.target.value)"
           (blur)="onBlur($event)"
           (focus)="onFocus($event)"
-          [disabled]="_disabled"></textarea>
+          [disabled]="_disabled"
+></textarea>
 
 <i *ngIf="required" class="required far fa-fw fa-asterisk"></i>

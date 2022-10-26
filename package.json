@@ -1,13 +1,15 @@
 {
   "name": "@mandate/core",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build mandate",
+    "build": "ng build mandate --configuration=production",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:ivy": "ng build mandate --configuration=ivy",
+    "watch": "ng build mandate --configuration=ivy --watch"
   },
   "peerDependencies": {},
   "devDependencies": {
