@@ -1,0 +1,42 @@
+<div
+    class="man-select-dropdown"
+    #dropdown
+>
+    <div class="filter-bar">
+        <div class="d-flex">
+            <input
+                autofocus
+                #filter
+                type="text"
+                class="filter flex-fill man-ignore-blur"
+                (input)="onFilter($event)"
+                [tabIndex]="tindex"
+            >
+            <button *ngIf="optionListRef?._optionList?.createOptionCallback !== null"
+                    class="btn btn-primary" (click)="onCreateClick()">
+                <i class="far fa-fw fa-plus"></i> Ny
+            </button>
+        </div>
+    </div>
+
+    <div
+        *ngIf="filterText !== '' && (optionListRef.currentOptions | async)?.length === 0"
+        class="no-options-found"
+    >
+        <strong>{{ filterText }}</strong> blev ikke fundet.<br>
+        <span *ngIf="optionListRef?._optionList?.createOptionCallback !== null">Tryk enter for at oprette...</span>
+    </div>
+
+    <div class="options" #options>
+        <div class="options" #optionsContainer>
+            <div
+                class="option"
+                #options
+                *ngFor="let option of (optionListRef.currentOptions | async); let index = index"
+                (click)="setValue(option.value)" [class.focus]="focusedOption === index"
+            >
+                {{ option.label }}
+            </div>
+        </div>
+    </div>
+</div>

@@ -25,6 +25,8 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
 
     @Input() decimals = 0;
 
+    @Input() thousandSeparator = true;
+
     @Input() nullable = false;
     public controlValue = '';
 
@@ -56,8 +58,8 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
             this.value.next(null);
         } else {
             this.value.next(
-                this.parseStringToNumber(value)
-                .toFixed(this.decimals)
+                parseFloat(this.parseStringToNumber(value)
+                .toFixed(this.decimals))
             );
         }
     }

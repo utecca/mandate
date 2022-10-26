@@ -5,11 +5,13 @@ import { ComponentType, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOption
 import { InputMenuRef } from './input-menu-ref';
 import { InputMenuContainerComponent } from './input-menu-container.component';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
-import { ComponentRef, ElementRef, Injector, Directive } from '@angular/core';
+import { ComponentRef, ElementRef, Injector, Directive, Component } from '@angular/core';
 import { OptionService } from '../option.service';
 import { BehaviorSubject } from 'rxjs';
 
-@Directive()
+@Component({
+    template: '',
+})
 export abstract class BaseDropdownInputComponent extends BaseInputComponent {
     scrollOffset = new BehaviorSubject<{x: number, y: number}>(null);
 

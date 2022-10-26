@@ -60,11 +60,12 @@ export class OptionListRef {
      * Will ask the OptionList to return the options matching the search-string.
      */
     public options(search: string = null): void {
+
         this._optionList.options(this, search).then(
             result => {
                 const options: Option[] = [];
 
-                if ((search === '' || search === null) && this.placeholder.value !== '' && this._showPlaceholderAsOption.value === true) {
+                if ((search === '' || search === null) && this.placeholder.value !== '' && this.placeholder.value !== null && this._showPlaceholderAsOption.value === true) {
                     options.push(this._placeholder);
                 }
 

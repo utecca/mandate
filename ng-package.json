@@ -2,9 +2,9 @@
   "$schema": "node_modules/ng-packagr/ng-package.schema.json",
   "dest": "dist/mandate-core",
   "lib": {
-    "entryFile": "mandate/core/public_api.ts"
+    "entryFile": "src/core/public_api.ts"
   },
-  "whitelistedNonPeerDependencies": [
+  "allowedNonPeerDependencies": [
     "collect.js",
     "ngx-plumber"
   ]
