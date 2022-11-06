@@ -24,7 +24,9 @@ export abstract class FormInputComponent implements ControlValueAccessor, OnDest
         this._tabIndex = value;
     }
 
-    @Output() public change = new EventEmitter<any>();
+    @Output('change') public changeEmitter = new EventEmitter<any>();
+    @Output('focus') public focusEmitter = new EventEmitter<FocusEvent>();
+    @Output('blur') public blurEmitter = new EventEmitter<FocusEvent>();
 
     protected valueSubscription: Subscription;
 
@@ -32,8 +34,8 @@ export abstract class FormInputComponent implements ControlValueAccessor, OnDest
         this.valueSubscription = this.value.subscribe(value => {
             if (typeof this.onChange !== 'undefined') {
                 this.onChange(value);
-                this.change.emit(value);
             }
+            this.changeEmitter.emit(value);
         })
     }
 
@@ -51,5 +53,14 @@ export abstract class FormInputComponent implements ControlValueAccessor, OnDest
 
     public writeValue(value: any): void {
         this.value.next(value);
+    }
+
+    public onBlur(event: FocusEvent): void {
+        this.blurEmitter.emit(event);
+    }
+
+    public onFocus(event: FocusEvent): void {
+        this.onTouched();
+        this.focusEmitter.emit(event);
     }
 }

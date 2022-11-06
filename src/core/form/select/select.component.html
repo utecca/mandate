@@ -1,4 +1,4 @@
-<div class="form-control d-flex man-select"
+<div class="form-control man-select"
      [class.disabled]="_disabled"
      [tabindex]="_disabled || isOpen ? -1 : _tabIndex"
      #input
@@ -10,11 +10,11 @@
      (focus)="onFocus($event)"
 >
     <div
-        class="flex-fill"
         [class.placeholder]="optionListRef.selectedOption.value?.placeholder === true"
     >
-        {{ optionListRef.selectedOption.value?.label }} {{ _tabIndex }}
+        {{ optionListRef.selectedOption.value?.label }}
     </div>
+
     <i class="caret far fa-spinner-third fa-spin" *ngIf="optionListRef.isLoading"></i>
     <i class="caret far fa-chevron-down" *ngIf="!optionListRef.isLoading && !isOpen"></i>
     <i class="caret far fa-times" *ngIf="!optionListRef.isLoading && isOpen"></i>

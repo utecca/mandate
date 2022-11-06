@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, Input, Output, ViewChild } from '@angular/core';
+import { Component, forwardRef, Input, ViewChild } from '@angular/core';
 import { FormInputComponent } from '../form-input.component';
 import { Option } from '../shared/interfaces/option';
 import { CdkConnectedOverlay, ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
@@ -28,9 +28,6 @@ export class SelectComponent extends FormInputComponent {
     @ViewChild('input') private input;
     @ViewChild('origin') private origin;
     @ViewChild('overlay') private overlay: CdkConnectedOverlay;
-
-    @Output() public focus = new EventEmitter<FocusEvent>();
-    @Output() public blur = new EventEmitter<FocusEvent>();
 
     @Input()
     private set options(options: Option[] | string | ((filter: string) => Option[])) {
@@ -98,11 +95,7 @@ export class SelectComponent extends FormInputComponent {
             );
     }
 
-    public onBlur(event: FocusEvent): void {
-        this.blur.emit(event);
-    }
-
-    public onFocus(event: FocusEvent): void {
-        this.focus.emit(event);
+    public focus(): void {
+        this.input.nativeElement.focus();
     }
 }
