@@ -29,9 +29,11 @@ export class SelectComponent extends FormInputComponent {
     @ViewChild('origin') private origin;
     @ViewChild('overlay') private overlay: CdkConnectedOverlay;
 
+    @Input() disableCreate: boolean = false
+
     @Input()
     private set options(options: Option[] | string | ((filter: string) => Option[])) {
-        this.optionListRef = this.optionService.get(options, this.value, this._placeholder, this._placeholderInOptions);
+        this.optionListRef = this.optionService.get(options, this._value, this._placeholder, this._placeholderInOptions);
     }
 
     @Input()
@@ -83,7 +85,7 @@ export class SelectComponent extends FormInputComponent {
         this.optionListRef._optionList.createOptionCallback(text)
             .then(
                 success => {
-                    this.value.next(success);
+                    this._value.next(success);
 
                     // Focus the input
                     this.input.nativeElement.focus();

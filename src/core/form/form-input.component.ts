@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnDestroy, Output } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ControlValueAccessor } from '@angular/forms';
 
@@ -7,7 +7,8 @@ export abstract class FormInputComponent implements ControlValueAccessor, OnDest
     public _disabled: boolean = false;
     public _tabIndex: number = null;
     public _placeholder = new BehaviorSubject<string>(null);
-    public value = new BehaviorSubject<any>(null);
+    public _value = new BehaviorSubject<any>(null);
+    private _required;
 
     protected onChange: CallableFunction;
     protected onTouched: CallableFunction;
@@ -20,22 +21,40 @@ export abstract class FormInputComponent implements ControlValueAccessor, OnDest
         this._placeholder.next(value);
     }
 
-    @Input() set tindex(value: number) {
-        this._tabIndex = value;
+    @Input() public tindex: number = null;
+
+    @Input() set value(value) {
+        this._value.next(value);
     }
+
+    @Input() public nullable: boolean = false
 
     @Output('change') public changeEmitter = new EventEmitter<any>();
     @Output('focus') public focusEmitter = new EventEmitter<FocusEvent>();
     @Output('blur') public blurEmitter = new EventEmitter<FocusEvent>();
+    @Output('valueChange') public valueChange = new EventEmitter<any>();
+
+    @Input() public set required(value) {
+        this._required = value === '';
+    }
+
+    @HostBinding('class') get elementClass() {
+        return 'man-input';
+    }
+
+    public get required() {
+        return this._required;
+    }
 
     protected valueSubscription: Subscription;
 
     protected constructor() {
-        this.valueSubscription = this.value.subscribe(value => {
+        this.valueSubscription = this._value.subscribe(value => {
             if (typeof this.onChange !== 'undefined') {
                 this.onChange(value);
             }
             this.changeEmitter.emit(value);
+            this.valueChange.emit(value);
         })
     }
 
@@ -52,7 +71,7 @@ export abstract class FormInputComponent implements ControlValueAccessor, OnDest
     }
 
     public writeValue(value: any): void {
-        this.value.next(value);
+        this._value.next(value);
     }
 
     public onBlur(event: FocusEvent): void {

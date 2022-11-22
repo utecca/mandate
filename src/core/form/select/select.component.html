@@ -32,10 +32,11 @@
     <man-select-dropdown
         cdkTrapFocus
         [cdkTrapFocusAutoCapture]="true"
-        (newValue)="this.isOpen = false; value.next($event)"
+        (newValue)="this.isOpen = false; _value.next($event)"
         (clickCreate)="onClickCreate($event)"
         [tindex]="_tabIndex"
-        [value]="value | async"
+        [value]="_value | async"
         [optionListRef]="optionListRef"
+        [disableCreate]="disableCreate"
     ></man-select-dropdown>
 </ng-template>

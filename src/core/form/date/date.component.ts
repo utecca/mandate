@@ -37,7 +37,7 @@ export class DateComponent extends BaseDropdownInputComponent {
     ) {
         super(element, overlay, injector, optionService, sso);
 
-        /*this.selectValueSubscription = this.value.subscribe((value) => {
+        /*this.selectValueSubscription = this._value.subscribe((value) => {
             if (typeof value !== 'undefined') {
                 this.isLoading = true;
                 this._optionList.option(value)
@@ -141,11 +141,11 @@ export class DateComponent extends BaseDropdownInputComponent {
      */
     setValue(year: number, month?: number, day?: number) {
         if (year) {
-            this.value.next(year + '-' + pad(month, 2) + '-' + pad(day, 2));
+            this._value.next(year + '-' + pad(month, 2) + '-' + pad(day, 2));
             this.controlValue = pad(day, 2) + '.' + pad(month, 2) + '.' + year;
             this.isValid = true;
         } else {
-            this.value.next(null);
+            this._value.next(null);
             this.isValid = false;
         }
     }
@@ -175,7 +175,7 @@ export class DateComponent extends BaseDropdownInputComponent {
             this.openDropdown(
                 DateDropdownComponent,
                 {
-                    value: this.value,
+                    value: this._value,
                     inner: this.inner
                 }
             );
@@ -222,8 +222,8 @@ export class DateComponent extends BaseDropdownInputComponent {
         super.registerOnChange(fn);
 
         // Rewrite current value, in-case it is a Date-object
-        if (this.value.value !== null) {
-            this.writeValue(this.value.value);
+        if (this._value.value !== null) {
+            this.writeValue(this._value.value);
         }
     }
 }

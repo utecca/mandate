@@ -26,7 +26,7 @@ export abstract class BaseOptionInputComponent extends BaseDropdownInputComponen
 
     @Input()
     private set options(options: Option[] | string | ((filter: string) => Option[])) {
-        this._optionListRef = this._optionService.get(options, this.value, this._placeholder, this._placeholderInOptions);
+        this._optionListRef = this._optionService.get(options, this._value, this._placeholder, this._placeholderInOptions);
         // TODO Subscribe to valuechanges!
     }
 
@@ -78,7 +78,7 @@ export abstract class BaseOptionInputComponent extends BaseDropdownInputComponen
                     SelectDropdownComponent,
                     {
                         optionListRef: this._optionListRef,
-                        value: this.value,
+                        value: this._value,
                         inner: this.inner
                     }
                 );

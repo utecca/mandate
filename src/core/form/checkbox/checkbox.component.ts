@@ -30,7 +30,7 @@ export class CheckboxComponent extends BaseInputComponent implements OnDestroy {
         overlay: Overlay, injector: Injector, optionService: OptionService) {
         super(element, optionService);
 
-        this.controlValueSubscription = this.value.subscribe((value) => {
+        this.controlValueSubscription = this._value.subscribe((value) => {
             this.controlValue = value;
         });
     }
@@ -42,20 +42,20 @@ export class CheckboxComponent extends BaseInputComponent implements OnDestroy {
 
     onClick(event) {
         if (event.srcElement.localName !== 'a') {
-            this.value.next(!this.value.value);
+            this._value.next(!this._value.value);
         }
     }
 
     public uncheck(): void {
-        this.value.next(false);
+        this._value.next(false);
     }
 
     public check(): void {
-        this.value.next(true);
+        this._value.next(true);
     }
 
     public get checked(): boolean {
-        return this.value.value;
+        return this._value.value;
     }
 }
 

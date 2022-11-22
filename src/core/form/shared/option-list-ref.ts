@@ -19,7 +19,7 @@ export class OptionListRef {
     public currentOptions = new BehaviorSubject<Option[]>([]);
 
     /**
-     * Contains the selected option (this.value contains the actual value).
+     * Contains the selected option (this._value contains the actual value).
      */
     public selectedOption = new BehaviorSubject<Option>(null);
 

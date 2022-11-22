@@ -37,7 +37,7 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
     constructor(element: ElementRef, overlay: Overlay, injector: Injector, optionService: OptionService) {
         super(element, optionService);
 
-        this.controlValueSubscription = this.value.subscribe((value) => {
+        this.controlValueSubscription = this._value.subscribe((value) => {
             if (typeof value === 'undefined') {
                 this.updateControlValue();
             } else {
@@ -54,12 +54,13 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
     }
 
     inputValue(value) {
-        if (this.nullable && (this.parseStringToNumber(value) === null || typeof value === 'undefined')) {
-            this.value.next(null);
+        const number = this.parseStringToNumber(value);
+
+        if (this.nullable && isNaN(number) || (number === null || typeof value === 'undefined')) {
+            this._value.next(null);
         } else {
-            this.value.next(
-                parseFloat(this.parseStringToNumber(value)
-                .toFixed(this.decimals))
+            this._value.next(
+                parseFloat(number.toFixed(this.decimals))
             );
         }
     }
@@ -79,10 +80,10 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
     }
 
     updateControlValue() {
-        if (this.value.value === null) {
+        if (this._value.value === null) {
             this.controlValue = '';
         } else {
-            this.controlValue = prettyNumber(this.value.value, this.decimals);
+            this.controlValue = prettyNumber(this._value.value, this.decimals);
         }
     }
 }

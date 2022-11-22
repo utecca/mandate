@@ -8,7 +8,12 @@ import { OptionListRef } from '../shared/option-list-ref';
 export class DropdownComponent {
     @Input() public optionListRef: OptionListRef;
     @Input() public tindex: number;
-    @Input() public value: any;
+    public _value: any;
+    @Input() disableCreate: boolean = false;
+
+    @Input() set value(value) {
+        this._value = value;
+    }
     @Output() public newValue = new EventEmitter();
     @Output() public clickCreate = new EventEmitter<string>();
 
@@ -36,7 +41,7 @@ export class DropdownComponent {
 
         // Find the currently selected option if it is available in currentOptions
         this.optionListRef.currentOptions.value.forEach((option, index) => {
-            if (option.value === this.value) {
+            if (option.value === this._value) {
                 this.setFocusedOption(index);
             }
         });

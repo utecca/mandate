@@ -12,7 +12,7 @@
                 (input)="onFilter($event)"
                 [tabIndex]="tindex"
             >
-            <button *ngIf="optionListRef?._optionList?.createOptionCallback !== null"
+            <button *ngIf="optionListRef?._optionList?.createOptionCallback !== null && !disableCreate"
                     class="btn btn-primary" (click)="onCreateClick()">
                 <i class="far fa-fw fa-plus"></i> Ny
             </button>

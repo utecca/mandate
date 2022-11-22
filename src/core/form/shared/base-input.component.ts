@@ -62,6 +62,10 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
     @Output() public change = new EventEmitter();
     @Output() public blur = new EventEmitter(); // TODO: Emit
     @Output() public keyup = new EventEmitter(); // TODO: Emit
+    @Input() public set myValue(value: any) {
+        this._value.next(value);
+    }
+    @Output() public myValueChange = new EventEmitter();
 
     @Host() parent;
 
@@ -75,7 +79,7 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
     /**
      * Contains the current value of the input.
      */
-    public value: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
+    public _value: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
 
     /**
      * Contains Angular's OnChange hook.
@@ -97,7 +101,7 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
         protected _optionService?: OptionService,
     ) {
         // Subscribe to value changes
-        this.valueSubscription = this.value.subscribe((value) => {
+        this.valueSubscription = this._value.subscribe((value) => {
             // Fire Angular's Form hook
             if (typeof this.ngOnChange !== 'undefined') {
                 this.ngOnChange(value);
@@ -105,6 +109,8 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
 
             // Fire change-output
             this.change.emit(value);
+
+            this.myValueChange.emit(value);
         });
     }
 
@@ -163,7 +169,7 @@ export abstract class BaseInputComponent implements ControlValueAccessor, Valida
      * Handle value changes in the form.
      */
     public writeValue(value: any): void {
-        this.value.next(value);
+        this._value.next(value);
     }
 
     /**

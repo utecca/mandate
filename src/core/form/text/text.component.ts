@@ -1,9 +1,7 @@
 import { Component, ViewEncapsulation, ChangeDetectionStrategy, Injector, forwardRef, OnDestroy, Input, ElementRef } from '@angular/core';
-import { Overlay } from '@angular/cdk/overlay';
-import { OptionService } from '../shared/option.service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { BaseInputComponent } from '../shared/base-input.component';
+import { FormInputComponent } from '../form-input.component';
 
 @Component({
     selector: 'man-text',
@@ -18,21 +16,18 @@ import { BaseInputComponent } from '../shared/base-input.component';
         }
     ]
 })
-export class TextComponent extends BaseInputComponent implements OnDestroy {
+export class TextComponent extends FormInputComponent implements OnDestroy {
 
-    @Input('rows') set rows(input) {
-        this._rows = input;
-    }
+    @Input() rows = 1;
     @Input() mask;
+
     public controlValue = '';
-    public _rows = 1;
     private controlValueSubscription: Subscription;
-    protected _innerClass = 'form-control man-text';
 
-    constructor(element: ElementRef, overlay: Overlay, injector: Injector, optionService: OptionService) {
-        super(element, optionService);
+    constructor() {
+        super();
 
-        this.controlValueSubscription = this.value.subscribe((value) => {
+        this.controlValueSubscription = this._value.subscribe((value) => {
             this.controlValue = value;
         });
     }
@@ -40,6 +35,14 @@ export class TextComponent extends BaseInputComponent implements OnDestroy {
     ngOnDestroy() {
         super.ngOnDestroy();
         this.controlValueSubscription.unsubscribe();
+    }
+
+    handleInput(value: string): void {
+        if (value === '') {
+            value = null;
+        }
+
+        this._value.next(value);
     }
 }
 
