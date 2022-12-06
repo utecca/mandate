@@ -21,7 +21,9 @@ export abstract class FormInputComponent implements ControlValueAccessor, OnDest
         this._placeholder.next(value);
     }
 
-    @Input() public tindex: number = null;
+    @Input() public set tindex(index: number) {
+        this._tabIndex = index;
+    }
 
     @Input() set value(value) {
         this._value.next(value);
