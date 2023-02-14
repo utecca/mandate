@@ -84,4 +84,8 @@ export abstract class FormInputComponent implements ControlValueAccessor, OnDest
         this.onTouched();
         this.focusEmitter.emit(event);
     }
+
+    public setDisabledState(isDisabled: boolean): void {
+        this._disabled = isDisabled;
+    }
 }

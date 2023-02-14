@@ -100,4 +100,12 @@ export class SelectComponent extends FormInputComponent {
     public focus(): void {
         this.input.nativeElement.focus();
     }
+
+    public onClick(): void {
+        if (this._disabled) {
+            return;
+        }
+
+        this.isOpen = !this.isOpen;
+    }
 }

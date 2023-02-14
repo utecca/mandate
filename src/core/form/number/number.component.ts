@@ -83,7 +83,7 @@ export class NumberComponent extends BaseInputComponent implements OnDestroy {
         if (this._value.value === null) {
             this.controlValue = '';
         } else {
-            this.controlValue = prettyNumber(this._value.value, this.decimals);
+            this.controlValue = prettyNumber(this._value.value, this.decimals, this.thousandSeparator);
         }
     }
 }
