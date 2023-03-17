@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, ChangeDetectionStrategy, Injector, forwardRef, OnDestroy, Input, ElementRef } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, forwardRef, OnDestroy, Input, ElementRef, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { FormInputComponent } from '../form-input.component';
@@ -20,6 +20,7 @@ export class TextComponent extends FormInputComponent implements OnDestroy {
 
     @Input() rows = 1;
     @Input() mask;
+    @ViewChild('inner') protected inner: ElementRef;
 
     public controlValue = '';
     private controlValueSubscription: Subscription;
@@ -43,6 +44,10 @@ export class TextComponent extends FormInputComponent implements OnDestroy {
         }
 
         this._value.next(value);
+    }
+
+    public focus() {
+        this.inner.nativeElement.focus();
     }
 }
 
