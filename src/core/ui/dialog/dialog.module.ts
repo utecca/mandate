@@ -18,7 +18,7 @@ import { DialogFooterComponent } from './components/dialog-footer.component';
         DialogBodyComponent,
         DialogFooterComponent,
         AlertDialogComponent,
-        ConfirmDialogComponent
+        ConfirmDialogComponent,
     ],
     imports: [
         CommonModule,
@@ -35,7 +35,7 @@ import { DialogFooterComponent } from './components/dialog-footer.component';
         OverlayModule,
         DialogHeaderComponent,
         DialogBodyComponent,
-        DialogFooterComponent
+        DialogFooterComponent,
     ],
     providers: [
         Dialog
