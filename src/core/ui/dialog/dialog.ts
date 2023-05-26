@@ -181,15 +181,6 @@ export class Dialog {
         // to modify and close it.
         const dialogRef = new DialogRef<T>(overlayRef, dialogContainer, config.id);
 
-        // When the dialog backdrop is clicked, we want to close it.
-        if (config.hasBackdrop) {
-            overlayRef.backdropClick().subscribe(() => {
-                if (!dialogRef.disableClose) {
-                    dialogRef.close();
-                }
-            });
-        }
-
         if (componentOrTemplateRef instanceof TemplateRef) {
             dialogContainer.attachTemplatePortal(
                 new TemplatePortal<T>(componentOrTemplateRef, null!,
