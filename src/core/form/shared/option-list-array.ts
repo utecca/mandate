@@ -26,4 +26,8 @@ export class OptionListArray extends OptionList {
             resolve(this._options);
         });
     }
+
+    public setRelations(relations: any): void {
+        throw new Error('OptionListArray does not support relations.')
+    }
 }

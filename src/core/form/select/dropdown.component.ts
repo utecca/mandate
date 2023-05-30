@@ -1,11 +1,11 @@
-import { Component, EventEmitter, HostListener, Input, Output, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, Output, ViewChild, ViewChildren } from '@angular/core';
 import { OptionListRef } from '../shared/option-list-ref';
 
 @Component({
     templateUrl: './dropdown.component.html',
     selector: 'man-select-dropdown',
 })
-export class DropdownComponent {
+export class DropdownComponent implements AfterViewInit {
     @Input() public optionListRef: OptionListRef;
     @Input() public tindex: number;
     public _value: any;
@@ -39,11 +39,13 @@ export class DropdownComponent {
             // TODO If not, close the menu. If it is, and the clicked element was not a new value, refocus the input
         });
 
-        // Find the currently selected option if it is available in currentOptions
-        this.optionListRef.currentOptions.value.forEach((option, index) => {
-            if (option.value === this._value) {
-                this.setFocusedOption(index);
-            }
+        this.optionListRef.options().then((options) => {
+            // Find the currently selected option if it is available in currentOptions
+            this.optionListRef.currentOptions.value.forEach((option, index) => {
+                if (option.value === this._value) {
+                    this.setFocusedOption(index);
+                }
+            });
         });
     }
 
@@ -72,7 +74,7 @@ export class DropdownComponent {
     }
 
     public onCreateClick(): void {
-        this.clickCreate.emit(''); // TODO Emit the value of the filter input
+        this.clickCreate.emit(this.filterText);
     }
 
     @HostListener('document:keydown', ['$event'])

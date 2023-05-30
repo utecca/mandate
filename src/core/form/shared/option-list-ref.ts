@@ -29,13 +29,6 @@ export class OptionListRef {
         private placeholder: BehaviorSubject<string>,
         private _showPlaceholderAsOption: BehaviorSubject<boolean>
     ) {
-        // Get the initial options
-        setTimeout(() => {
-            if (this.currentOptions.value.length === 0) {
-                this.options(null);
-            }
-        }, 0);
-
         this.value.subscribe((newValue) => { // TODO Unsubscribe on destroy!
             if (newValue === null || typeof newValue === 'undefined') {
                 this.selectedOption.next(this._placeholder);
@@ -59,9 +52,8 @@ export class OptionListRef {
     /**
      * Will ask the OptionList to return the options matching the search-string.
      */
-    public options(search: string = null): void {
-
-        this._optionList.options(this, search).then(
+    public options(search: string = null): Promise<any> {
+        return this._optionList.options(this, search).then(
             result => {
                 const options: Option[] = [];
 

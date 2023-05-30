@@ -32,6 +32,11 @@ export class SelectComponent extends FormInputComponent {
     @Input() disableCreate: boolean = false
 
     @Input()
+    private set relations(relations: any) {
+        this.optionListRef._optionList.setRelations(relations);
+    };
+
+    @Input()
     private set options(options: Option[] | string | ((filter: string) => Option[])) {
         this.optionListRef = this.optionService.get(options, this._value, this._placeholder, this._placeholderInOptions);
     }
@@ -82,7 +87,7 @@ export class SelectComponent extends FormInputComponent {
     public onClickCreate(text: string): void {
         this.isOpen = false;
         // this.inputMenuRef.close();
-        this.optionListRef._optionList.createOptionCallback(text)
+        this.optionListRef._optionList.createOptionCallback(text, this.optionListRef._optionList.getRelations())
             .then(
                 success => {
                     this._value.next(success);

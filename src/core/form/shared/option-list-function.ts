@@ -30,4 +30,7 @@ export class OptionListFunction extends OptionList {
     refetch(): void {
     }
 
+    public setRelations(relations: any): void {
+        throw new Error('OptionListFunction does not support relations.')
+    }
 }
