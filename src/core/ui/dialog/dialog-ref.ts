@@ -1,9 +1,9 @@
 import { GlobalPositionStrategy, OverlayRef } from '@angular/cdk/overlay';
 import { ManDialogContainerComponent } from './dialog-container.component';
-import { filter, take } from 'rxjs/operators';
+import { filter, take } from 'rxjs';
 import { ESCAPE } from '@angular/cdk/keycodes';
 import { DialogPosition } from './dialog-config';
-import { Observable, Subject } from 'rxjs/index';
+import { Observable, Subject } from 'rxjs';
 
 
 let uniqueId = 0;
@@ -13,7 +13,7 @@ export class DialogRef<T, R = any> {
     componentInstance: T;
 
     /** Whether the user is allowed to close the dialog. */
-    disableClose: boolean | undefined = this._containerInstance._config.disableClose;
+    disableClose: boolean | undefined;
 
     /** Subject for notifying the user that the dialog has finished opening. */
     private readonly _afterOpen = new Subject<void>();
@@ -34,13 +34,15 @@ export class DialogRef<T, R = any> {
         private _overlayRef: OverlayRef,
         public _containerInstance: ManDialogContainerComponent,
         // location?: Location,
-        readonly id: string = `man-dialog-${uniqueId++}`) {
+        readonly id: string = `man-dialog-${uniqueId++}`
+    ) {
 
         // Pass the id along to the container.
-        _containerInstance._id = id;
+        // _containerInstance._id = id;
+        this.disableClose = this._containerInstance._config.disableClose;
 
         // Emit when opening animation completes
-        _containerInstance._animationStateChanged.pipe(
+        this._containerInstance._animationStateChanged.pipe(
             filter(event => event.phaseName === 'done' && event.toState === 'enter'),
             take(1)
         )
@@ -50,7 +52,7 @@ export class DialogRef<T, R = any> {
             });
 
         // Dispose overlay when closing animation is complete
-        _containerInstance._animationStateChanged.pipe(
+        this._containerInstance._animationStateChanged.pipe(
             filter(event => event.phaseName === 'done' && event.toState === 'exit'),
             take(1)
         )

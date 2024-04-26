@@ -4,7 +4,7 @@ import { ComponentType, Overlay, OverlayConfig, OverlayContainer, OverlayRef } f
 import { ManDialogConfig } from './dialog-config';
 import { ComponentPortal, PortalInjector, TemplatePortal } from '@angular/cdk/portal';
 import { ManDialogContainerComponent } from './dialog-container.component';
-import { startWith } from 'rxjs/operators';
+import { startWith } from 'rxjs';
 import { Directionality } from '@angular/cdk/bidi';
 import { ManDialogGlobalConfig } from './dialog-types';
 import { defer, Observable, Subject } from 'rxjs';

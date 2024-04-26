@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 *.tgz
+.angular
 
 # dependencies
 /node_modules

@@ -1,7 +1,7 @@
 import {Direction} from '@angular/cdk/bidi';
 import {ScrollStrategy} from '@angular/cdk/overlay';
 import {ViewContainerRef} from '@angular/core';
-import {BehaviorSubject} from "rxjs/index";
+import {BehaviorSubject} from "rxjs";
 
 export class InputMenuConfig<D = any> {
 

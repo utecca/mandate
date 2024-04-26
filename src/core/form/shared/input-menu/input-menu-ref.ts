@@ -1,5 +1,5 @@
 import { GlobalPositionStrategy, OverlayRef } from '@angular/cdk/overlay';
-import { filter, take } from 'rxjs/operators';
+import { filter, take } from 'rxjs';
 import { ESCAPE } from '@angular/cdk/keycodes';
 import { Observable, Subject } from 'rxjs';
 import { InputMenuContainerComponent } from './input-menu-container.component';
