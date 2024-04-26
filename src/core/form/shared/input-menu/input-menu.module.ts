@@ -13,9 +13,6 @@ import {InputMenuContainerComponent} from './input-menu-container.component';
     declarations: [
         InputMenuContainerComponent
     ],
-    entryComponents: [
-        InputMenuContainerComponent
-    ],
     exports: [
         InputMenuContainerComponent
     ]

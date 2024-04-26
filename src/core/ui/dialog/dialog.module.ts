@@ -26,11 +26,6 @@ import { DialogFooterComponent } from './components/dialog-footer.component';
         PortalModule,
         A11yModule
     ],
-    entryComponents: [
-        ManDialogContainerComponent,
-        AlertDialogComponent,
-        ConfirmDialogComponent
-    ],
     exports: [
         OverlayModule,
         DialogHeaderComponent,

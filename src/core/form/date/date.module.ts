@@ -8,9 +8,6 @@ import { DateDropdownComponent } from './inner/date-dropdown.component';
         DateComponent,
         DateDropdownComponent
     ],
-    entryComponents: [
-        DateDropdownComponent
-    ],
     exports: [
         DateComponent
     ],
